@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="4" passed="4">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="13" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="13" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+      <class name="org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne@aeffdf]" name="beforeSuite" is-config="true" duration-ms="6" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo@6b7920]" name="beforeSuite" is-config="true" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="before()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne@aeffdf]" name="before" is-config="true" duration-ms="1" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- before -->
+        <test-method status="PASS" signature="before()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo@6b7920]" name="before" is-config="true" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- before -->
+        <test-method status="PASS" signature="f1()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne@aeffdf]" name="f1" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- f1 -->
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne@aeffdf]" name="beforeClass" is-config="true" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="f2()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne@aeffdf]" name="f2" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- f2 -->
+      </class> <!-- org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestOne -->
+      <class name="org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo@6b7920]" name="beforeClass" is-config="true" duration-ms="0" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="f1()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo@6b7920]" name="f1" duration-ms="4" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- f1 -->
+        <test-method status="PASS" signature="f2()[pri:0, instance:org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo@6b7920]" name="f2" duration-ms="1" started-at="2013-08-28T11:47:25Z" finished-at="2013-08-28T11:47:25Z">
+        </test-method> <!-- f2 -->
+      </class> <!-- org.cisco.common.toolkit.org.cisco.common.toolkit.rpool.TestTwo -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
