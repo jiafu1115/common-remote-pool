@@ -5,7 +5,7 @@
 	<artifactId>common-remote-pool</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rpool Maven Webapp</name>
+	<name>Common Remote Pool Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
