@@ -1,7 +1,6 @@
 package com.googlecode.common.remote.pool.impl;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -40,6 +39,7 @@ public class ResourcePool {
     }
 
     @GET
+    @Path("borrow")
     @Produces(MediaType.APPLICATION_JSON)
     public Object borrow() {
         try {
@@ -49,7 +49,8 @@ public class ResourcePool {
         }
     }
 
-    @DELETE
+    @GET
+    @Path("return")
     @Consumes(MediaType.APPLICATION_JSON)
     public void returnObject(Object object) {
         try {
