@@ -12,19 +12,19 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 
 @Path("extension")
-public class PoolResource {
+public class ResourcePool {
 
-	private static final GenericObjectPool EXTENSION_POOL = GenericObjectPool.getInstance();
+	private static final GenericObjectPool GenericObjectPoolImpl = GenericObjectPool.getInstance();
 
-	public PoolResource() {
+	public ResourcePool() {
 
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Extension borrow() {
+	public Object borrow() {
 		try {
-			return EXTENSION_POOL.borrowObject();
+			return GenericObjectPoolImpl.borrowObject();
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
@@ -32,9 +32,9 @@ public class PoolResource {
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void returnObject(Extension extension) {
+	public void returnObject(Object object) {
 		try {
-			EXTENSION_POOL.returnObject(extension);
+			GenericObjectPoolImpl.returnObject(object);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
@@ -43,7 +43,7 @@ public class PoolResource {
 	@GET
 	@Path("active")
 	public int getIdleNumber() {
-		int activeNumber = EXTENSION_POOL.getNumActive();
+		int activeNumber = GenericObjectPoolImpl.getNumActive();
  		return activeNumber;
 	}
 }
