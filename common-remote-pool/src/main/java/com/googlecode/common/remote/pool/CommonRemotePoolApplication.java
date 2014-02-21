@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import com.googlecode.common.remote.pool.resources.ResourcePool;
+import com.googlecode.common.remote.pool.impl.ResourcePool;
 
 public class CommonRemotePoolApplication extends Application {
 
