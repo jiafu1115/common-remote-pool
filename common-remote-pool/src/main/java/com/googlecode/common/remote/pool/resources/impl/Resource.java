@@ -1,18 +1,18 @@
 package com.googlecode.common.remote.pool.resources.impl;
 
 
-public class Extension {
+public class Resource {
 
 	private String user;
 	private String password;
 	private String domain;
 	private String outboundProxy;
 
-	public Extension(){
+	public Resource(){
 
 	}
 
-	public Extension(String user, String password, String domain, String outboundProxy) {
+	public Resource(String user, String password, String domain, String outboundProxy) {
 		this.user = user;
 		this.password = password;
 		this.domain = domain;
@@ -54,7 +54,7 @@ public class Extension {
 
 	@Override
 	public String toString() {
-		return "Extension [user=" + user + ", password=" + password + ", domain=" + domain + ", outboundProxy="
+		return "Resource [user=" + user + ", password=" + password + ", domain=" + domain + ", outboundProxy="
 				+ outboundProxy + "]";
 	}
 
