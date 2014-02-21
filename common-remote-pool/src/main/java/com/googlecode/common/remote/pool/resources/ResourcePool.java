@@ -9,41 +9,63 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-
-
 @Path("extension")
 public class ResourcePool {
 
-	private static final GenericObjectPool GenericObjectPoolImpl = GenericObjectPool.getInstance();
+    public static final String ClASSNAME_FOR_GENERIC_OBJECTPOOL_IMPL="com.googlecode.common.remote.pool.resources.impl.GenericObjectPoolImpl";
 
-	public ResourcePool() {
+    private static ResourcePool INSTANCE;
+    private GenericObjectPool<Object> GenericObjectPoolImpl;
 
-	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Object borrow() {
-		try {
-			return GenericObjectPoolImpl.borrowObject();
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public ResourcePool() {
+        try {
+             GenericObjectPoolImpl =(GenericObjectPool<Object>) Class.forName(ClASSNAME_FOR_GENERIC_OBJECTPOOL_IMPL).newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+         }
+    }
 
-	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void returnObject(Object object) {
-		try {
-			GenericObjectPoolImpl.returnObject(object);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    public static ResourcePool getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        }
 
-	@GET
-	@Path("active")
-	public int getIdleNumber() {
-		int activeNumber = GenericObjectPoolImpl.getNumActive();
- 		return activeNumber;
-	}
+        synchronized (ResourcePool.class) {
+            if (INSTANCE != null) {
+                return INSTANCE;
+            }
+
+            INSTANCE = new ResourcePool();
+            return INSTANCE;
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object borrow() {
+        try {
+            return GenericObjectPoolImpl.borrowObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void returnObject(Object object) {
+        try {
+            GenericObjectPoolImpl.returnObject(object);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @GET
+    @Path("active")
+    public int getIdleNumber() {
+        int activeNumber = GenericObjectPoolImpl.getNumActive();
+        return activeNumber;
+    }
 }
