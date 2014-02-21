@@ -93,7 +93,7 @@
 	</repositories>
 
 	<build>
-        <finalName>rpool</finalName>
+        <finalName>common-remote-pool</finalName>
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
