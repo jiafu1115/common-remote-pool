@@ -1,7 +1,6 @@
 package com.googlecode.common.remote.pool.resource;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.EmptyStackException;
@@ -11,14 +10,14 @@ import org.apache.commons.pool.PoolableObjectFactory;
 
 public class ResourceFactory implements PoolableObjectFactory<Resource> {
 
-	public static final String CONFIG_FILE = "." + File.separator + "resource.txt";
+	public static final String CONFIG_FILE = "resource.txt";
 
 	private static Stack<Resource> stack = new Stack<Resource>();
 
 	static {
 
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ResourceFactory.class
-				.getClassLoader().getResourceAsStream(CONFIG_FILE)));
+				.getResourceAsStream(CONFIG_FILE)));
 		try {
 			String extensionLine;
 			while ((extensionLine = bufferedReader.readLine()) != null) {
