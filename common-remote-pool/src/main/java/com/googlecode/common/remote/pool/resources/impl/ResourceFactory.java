@@ -9,21 +9,21 @@ import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 
-public class ExtensionFactory implements PoolableObjectFactory<Extension> {
+public class ResourceFactory implements PoolableObjectFactory<Resource> {
 
 	public static final String CONFIG_FILE = "./conf" + File.separator + "extension.txt";
 
-	private static Stack<Extension> stack = new Stack<Extension>();
+	private static Stack<Resource> stack = new Stack<Resource>();
 
 	static {
 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ExtensionFactory.class
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ResourceFactory.class
 				.getClassLoader().getResourceAsStream(CONFIG_FILE)));
 		try {
 			String extensionLine;
 			while ((extensionLine = bufferedReader.readLine()) != null) {
 				String[] split = extensionLine.split(",");
-				stack.push(new Extension(split[0], split[1], split[2], split[3]));
+				stack.push(new Resource(split[0], split[1], split[2], split[3]));
 
 			}
 		} catch (IOException e) {
@@ -40,7 +40,7 @@ public class ExtensionFactory implements PoolableObjectFactory<Extension> {
 	}
 
 	@Override
-	public Extension makeObject() throws Exception {
+	public Resource makeObject() throws Exception {
 		try {
 			return stack.pop();
 		} catch (EmptyStackException e) {
@@ -49,22 +49,22 @@ public class ExtensionFactory implements PoolableObjectFactory<Extension> {
 	}
 
 	@Override
-	public void destroyObject(Extension phone) throws Exception {
+	public void destroyObject(Resource phone) throws Exception {
 		stack.push(phone);
 	}
 
 	@Override
-	public boolean validateObject(Extension paramT) {
+	public boolean validateObject(Resource paramT) {
 		return false;
 	}
 
 	@Override
-	public void activateObject(Extension paramT) throws Exception {
+	public void activateObject(Resource paramT) throws Exception {
 
 	}
 
 	@Override
-	public void passivateObject(Extension paramT) throws Exception {
+	public void passivateObject(Resource paramT) throws Exception {
 
 	}
 

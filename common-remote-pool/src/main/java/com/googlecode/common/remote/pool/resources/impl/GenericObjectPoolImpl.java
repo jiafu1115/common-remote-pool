@@ -3,12 +3,12 @@ package com.googlecode.common.remote.pool.resources.impl;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-public class GenericObjectPoolImpl extends GenericObjectPool<Extension>{
+public class GenericObjectPoolImpl extends GenericObjectPool<Resource>{
 
 	private static GenericObjectPoolImpl INSTANCE;
 
 	private GenericObjectPoolImpl() {
-		super(new ExtensionFactory());
+		super(new ResourceFactory());
 	}
 
 	public static GenericObjectPoolImpl getInstance() {
