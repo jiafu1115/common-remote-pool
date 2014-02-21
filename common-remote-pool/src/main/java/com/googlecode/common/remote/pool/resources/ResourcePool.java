@@ -9,19 +9,16 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-@Path("extension")
+@Path("object")
 public class ResourcePool {
 
-    public static final String ClASSNAME_FOR_GENERIC_OBJECTPOOL_IMPL="com.googlecode.common.remote.pool.resources.impl.GenericObjectPoolImpl";
-
     private static ResourcePool INSTANCE;
-    private GenericObjectPool<Object> GenericObjectPoolImpl;
+    private GenericObjectPool<Object> genericObjectPool;
 
 
-    @SuppressWarnings("unchecked")
     public ResourcePool() {
         try {
-             GenericObjectPoolImpl =(GenericObjectPool<Object>) Class.forName(ClASSNAME_FOR_GENERIC_OBJECTPOOL_IMPL).newInstance();
+             genericObjectPool =GenericObjectPoolImpl.getInstance();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
          }
@@ -46,7 +43,7 @@ public class ResourcePool {
     @Produces(MediaType.APPLICATION_JSON)
     public Object borrow() {
         try {
-            return GenericObjectPoolImpl.borrowObject();
+            return genericObjectPool.borrowObject();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -56,7 +53,7 @@ public class ResourcePool {
     @Consumes(MediaType.APPLICATION_JSON)
     public void returnObject(Object object) {
         try {
-            GenericObjectPoolImpl.returnObject(object);
+            genericObjectPool.returnObject(object);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -65,7 +62,7 @@ public class ResourcePool {
     @GET
     @Path("active")
     public int getIdleNumber() {
-        int activeNumber = GenericObjectPoolImpl.getNumActive();
+        int activeNumber = genericObjectPool.getNumActive();
         return activeNumber;
     }
 }
