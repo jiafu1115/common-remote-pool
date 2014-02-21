@@ -781,7 +781,7 @@ standard deployment descriptor.
 		</servlet-class>
     <init-param>
       <javaee:param-name>javax.ws.rs.Application</javaee:param-name>
-      <javaee:param-value>com.googlecode.common.remote.pool.RPoolApplication</javaee:param-value>
+      <javaee:param-value>com.googlecode.common.remote.pool.CommonRemotePoolApplication</javaee:param-value>
     </init-param>
   </servlet>
   <servlet-mapping>

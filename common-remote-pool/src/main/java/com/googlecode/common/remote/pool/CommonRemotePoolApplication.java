@@ -7,12 +7,12 @@ import javax.ws.rs.core.Application;
 
 import com.googlecode.common.remote.pool.resources.PoolResource;
 
-public class RPoolApplication extends Application {
+public class CommonRemotePoolApplication extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
 	private Set<Class<?>> classes = new HashSet<Class<?>>();
 
-	public RPoolApplication() {
+	public CommonRemotePoolApplication() {
 		initResources();
 	}
 
