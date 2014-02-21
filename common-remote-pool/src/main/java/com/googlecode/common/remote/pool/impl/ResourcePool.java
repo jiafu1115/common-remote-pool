@@ -6,23 +6,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.pool.impl.GenericObjectPool;
-
 
 @Path("object")
 public class ResourcePool {
 
     private static ResourcePool INSTANCE;
-    private GenericObjectPool<Object> genericObjectPool;
-
-
-    public ResourcePool() {
-        try {
-             genericObjectPool =GenericObjectPoolImpl.getInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-         }
-    }
 
     public static ResourcePool getInstance() {
         if (INSTANCE != null) {
@@ -44,7 +32,7 @@ public class ResourcePool {
     @Produces(MediaType.APPLICATION_JSON)
     public Object borrow() {
         try {
-            return genericObjectPool.borrowObject();
+            return getObjectPoolImpl().borrowObject();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -55,7 +43,7 @@ public class ResourcePool {
     @Consumes(MediaType.APPLICATION_JSON)
     public void returnObject(Object object) {
         try {
-            genericObjectPool.returnObject(object);
+            getObjectPoolImpl().returnObject(object);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -64,7 +52,11 @@ public class ResourcePool {
     @GET
     @Path("active")
     public int getIdleNumber() {
-        int activeNumber = genericObjectPool.getNumActive();
+        int activeNumber = getObjectPoolImpl().getNumActive();
         return activeNumber;
+    }
+
+    private GenericObjectPoolImpl getObjectPoolImpl() {
+        return GenericObjectPoolImpl.getInstance();
     }
 }
