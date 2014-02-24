@@ -18,7 +18,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("/file")
 public class UploadFileService {
 
-	private final String UPLOADED_FILE_PATH = "d:\\";
+	private final String UPLOADED_FILE_PATH = "D:\\workspace\\common-remote-pool\\target\\classes\\com\\googlecode\\common\\remote\\pool\\resource\\";
 
 	@POST
 	@Path("/upload")
@@ -93,11 +93,11 @@ public class UploadFileService {
 			file.createNewFile();
 		}
 
-		FileOutputStream fop = new FileOutputStream(file);
+		FileOutputStream fileOutputStream = new FileOutputStream(file);
 
-		fop.write(content);
-		fop.flush();
-		fop.close();
+		fileOutputStream.write(content);
+		fileOutputStream.flush();
+		fileOutputStream.close();
 
 	}
 }
