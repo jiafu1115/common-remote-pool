@@ -1,6 +1,6 @@
 <html>
 <body>
-	<h1>JAX-RS Upload Form</h1>
+	<h1>Resource Factory Implement Class Upload:</h1>
 
 	<form action="service/file/upload" method="post" enctype="multipart/form-data">
 
