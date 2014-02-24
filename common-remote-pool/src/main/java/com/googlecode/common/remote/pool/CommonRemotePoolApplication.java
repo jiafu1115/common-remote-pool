@@ -5,7 +5,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import com.googlecode.common.remote.pool.impl.ResourcePool;
+import com.googlecode.common.remote.pool.impl.ResourcePoolService;
+import com.googlecode.common.remote.pool.resource.upload.UploadFileService;
 
 public class CommonRemotePoolApplication extends Application {
 
@@ -27,7 +28,8 @@ public class CommonRemotePoolApplication extends Application {
 	}
 
 	private void initResources() {
-		singletons.add(new ResourcePool());
+		singletons.add(new ResourcePoolService());
+		singletons.add(new UploadFileService());
 
 	}
 

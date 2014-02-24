@@ -8,21 +8,21 @@ import javax.ws.rs.core.MediaType;
 
 
 @Path("object")
-public class ResourcePool {
+public class ResourcePoolService {
 
-    private static ResourcePool INSTANCE;
+    private static ResourcePoolService INSTANCE;
 
-    public static ResourcePool getInstance() {
+    public static ResourcePoolService getInstance() {
         if (INSTANCE != null) {
             return INSTANCE;
         }
 
-        synchronized (ResourcePool.class) {
+        synchronized (ResourcePoolService.class) {
             if (INSTANCE != null) {
                 return INSTANCE;
             }
 
-            INSTANCE = new ResourcePool();
+            INSTANCE = new ResourcePoolService();
             return INSTANCE;
         }
     }
