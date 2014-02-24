@@ -8,7 +8,7 @@
 			Select a file : <input type="file" name="uploadedFile" size="50" />
 		</p>
 
-		<input type="submit" value="Upload It" />
+		<input type="submit" value="Upload Files" />
 	</form>
 
 </body>
