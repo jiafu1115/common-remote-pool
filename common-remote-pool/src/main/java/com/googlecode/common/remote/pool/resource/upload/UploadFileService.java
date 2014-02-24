@@ -18,12 +18,15 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("/file")
 public class UploadFileService {
 
-	private final String UPLOADED_FILE_PATH = "D:\\workspace\\common-remote-pool\\target\\classes\\com\\googlecode\\common\\remote\\pool\\resource\\";
+    private final String UPLOADED_FILE_PATH =  this.getClass().getResource(".").getPath().replace("upload/", "").replace("upload\\", "");
+
 
 	@POST
 	@Path("/upload")
 	@Consumes("multipart/form-data")
 	public Response uploadFile(MultipartFormDataInput input) {
+
+	    System.out.println(UPLOADED_FILE_PATH);
 
 		String fileName = "";
 
