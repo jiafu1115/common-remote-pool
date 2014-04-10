@@ -5,7 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
+import javax.ws.rs.core.Response;
 
 @Path("object")
 public class ResourcePoolService {
@@ -32,7 +32,14 @@ public class ResourcePoolService {
     @Produces(MediaType.APPLICATION_JSON)
     public Object borrow() {
         try {
-            return getObjectPoolImpl().borrowObject();
+            Object borrowObject = getObjectPoolImpl().borrowObject();
+            if (borrowObject == null)
+
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity("no resource can be used")
+                        .build();
+             return borrowObject;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
