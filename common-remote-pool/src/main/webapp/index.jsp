@@ -6,13 +6,14 @@
 <h3>How to initial it</h3>
 
 <p>
-<li> <a href="upload.jsp">upload</a>  your resource factory class.
-
+<ul>
+<li> <a href="upload.jsp">Upload</a>  your resource factory class which should use name: com.googlecode.common.remote.pool.resource.ResourceFactory</li>
+</ul>
 <p>
 <h3>How to use it</h3>
-
-<li>borrow the object from pool
-
+<ul>
+<li>borrow the object from pool</li>
+</ul>
 <pre>
 Request:
         GET http://localhost:8080/common-remote-pool/service/object/borrow
@@ -22,7 +23,9 @@ Response:
 	response body: json
 	example: {"domain":"10.224.64.225","user":"6731","outboundProxy":"sip:10.224.64.225;","password":"6731"}
 </pre>
-<li>return resource to pool
+<ul>
+<li>return resource to pool</li>
+</ul>
 <pre>
 Request:
 	GET http://localhost:8080/common-remote-pool/service/object/return
@@ -33,8 +36,9 @@ Request:
 Response:
 	response code:200
 </pre>
-
-<li>get active resource had be borrowed
+<ul>
+<li>get active resource had be borrowed</li>
+</ul>
 <pre>
 Request:
 	GET http://localhost:8080/common-remote-pool/service/object/active
