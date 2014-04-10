@@ -43,8 +43,8 @@ public class ResourceFactory implements PoolableObjectFactory<Resource> {
 		try {
 			return stack.pop();
 		} catch (EmptyStackException e) {
-			throw new RuntimeException("no phone can be used: " + e.getMessage());
-		}
+		    return null;
+ 		}
 	}
 
 	@Override
