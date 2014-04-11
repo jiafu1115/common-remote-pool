@@ -9,6 +9,11 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 
 
+/**
+ *
+ * @author jiafu
+ *
+ */
 public class CommonRemotePoolClient {
 
     /**
@@ -16,6 +21,9 @@ public class CommonRemotePoolClient {
      */
     private String url;
 
+    /**
+     * @param url such as http://10.224.38.166:8080/common-remote-pool/
+     */
     public CommonRemotePoolClient(String url) {
         super();
         if(!url.endsWith("/"))
@@ -24,6 +32,10 @@ public class CommonRemotePoolClient {
 
     }
 
+    /**
+     * @param classType
+     * @return return null if now object can be borrowed.
+     */
     public <T> T borrowObject(Class<T> classType) {
         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
@@ -34,8 +46,7 @@ public class CommonRemotePoolClient {
 
             T readEntity = response.readEntity(classType);
             return readEntity;
-
-        } finally {
+         } finally {
             client.close();
         }
 
@@ -48,8 +59,7 @@ public class CommonRemotePoolClient {
             Response response = target.request().post(Entity.json(object));
 
             return response.getStatus() == 204;
-
-        } finally {
+         } finally {
             client.close();
         }
     }
