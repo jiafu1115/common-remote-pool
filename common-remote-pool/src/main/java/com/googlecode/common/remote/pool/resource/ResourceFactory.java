@@ -1,71 +1,46 @@
 package com.googlecode.common.remote.pool.resource;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 
-public class ResourceFactory implements PoolableObjectFactory<Resource> {
+public class ResourceFactory implements PoolableObjectFactory<Object> {
 
-	public static final String CONFIG_FILE = "resource.txt";
 
-	private static Stack<Resource> stack = new Stack<Resource>();
+	private static Stack<Object> stack = new Stack<Object>();
 
-	static {
-
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ResourceFactory.class
-				.getResourceAsStream(CONFIG_FILE)));
-		try {
-			String extensionLine;
-			while ((extensionLine = bufferedReader.readLine()) != null) {
-				String[] split = extensionLine.split(",");
-				stack.push(new Resource(split[0], split[1], split[2], split[3]));
-
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (bufferedReader != null)
-				try {
-					bufferedReader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
-
-	}
+	public ResourceFactory(){
+              //add only for demo.
+  	}
 
 	@Override
-	public Resource makeObject() throws Exception {
+	public Object makeObject() throws Exception {
 		try {
 			return stack.pop();
 		} catch (EmptyStackException e) {
-		    return null;
+		    throw e;
  		}
 	}
 
 	@Override
-	public void destroyObject(Resource phone) throws Exception {
-		stack.push(phone);
+	public void destroyObject(Object object) throws Exception {
+		stack.push(object);
 	}
 
 	@Override
-	public boolean validateObject(Resource paramT) {
+	public boolean validateObject(Object object) {
 		return false;
 	}
 
 	@Override
-	public void activateObject(Resource paramT) throws Exception {
+	public void activateObject(Object object) throws Exception {
 
 	}
 
 	@Override
-	public void passivateObject(Resource paramT) throws Exception {
+	public void passivateObject(Object object) throws Exception {
 
 	}
-
 
 }

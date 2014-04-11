@@ -1,23 +1,32 @@
 package com.googlecode.common.remote.pool.resource.upload;
 
 import javax.ws.rs.FormParam;
-
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 public class FileUploadForm {
 
-	public FileUploadForm() {
-	}
+    public FileUploadForm() {
+    }
 
-	private byte[] data;
+    private byte[] fileData;
+    private String fileName;
 
-	public byte[] getData() {
-		return data;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	@FormParam("file")
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+    @FormParam("fileName")
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
+    public byte[] getFileData() {
+        return fileData;
+    }
 
+    @FormParam("selectedFile")
+    @PartType("application/octet-stream")
+    public void setFileData(byte[] fileData) {
+        this.fileData = fileData;
+    }
 }

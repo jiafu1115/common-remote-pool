@@ -342,9 +342,9 @@
 			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
 		</servlet-class>
 		<init-param>
-			<javaee:param-name>javax.ws.rs.Application</javaee:param-name>
-			<javaee:param-value>com.googlecode.common.remote.pool.CommonRemotePoolApplication
-			</javaee:param-value>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.googlecode.common.remote.pool.CommonRemotePoolApplication
+			</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

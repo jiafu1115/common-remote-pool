@@ -1,40 +1,68 @@
 package com.googlecode.common.remote.pool.impl;
 
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
+public class GenericObjectPoolImpl extends GenericObjectPool<Object>{
 
-	private final static String CLASS_FOR_RESOURCE_FACTORY = "com.googlecode.common.remote.pool.resource.ResourceFactory";
+    public  static final String DEFAULT_RESOURCE_FACTORY = "com.googlecode.common.remote.pool.resource.ResourceFactory";
+    public  static String classForResourceFactory=DEFAULT_RESOURCE_FACTORY;
 
 	@SuppressWarnings("unchecked")
-	private GenericObjectPoolImpl() throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException {
-		super((PoolableObjectFactory<Object>) Class.forName(
-				CLASS_FOR_RESOURCE_FACTORY).newInstance());
+    private GenericObjectPoolImpl() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		super(getFactoryInstance());
 	}
 
-	private static GenericObjectPoolImpl INSTANCE;
+    private static PoolableObjectFactory<Object> getFactoryInstance() throws InstantiationException,
+            IllegalAccessException, ClassNotFoundException {
+        InputStream resourceAsStream = GenericObjectPoolImpl.class.getClassLoader().getResourceAsStream("config.txt");
+        try{
+            String string = IOUtils.toString(resourceAsStream);
+            System.out.println("import:"+string);
+            if(string==null||string.isEmpty()){
+                classForResourceFactory=DEFAULT_RESOURCE_FACTORY;
+             }else{
+                 classForResourceFactory=string;
+             }
 
-	public static GenericObjectPoolImpl getInstance()
-			throws ClassNotFoundException {
-		if (INSTANCE != null)
-			return INSTANCE;
+            System.out.println("new classForResourceFactory: "+classForResourceFactory);
+          } catch (IOException e) {
+             e.printStackTrace();
+        }finally{
+            IOUtils.closeQuietly(resourceAsStream);
+        }
+        return (PoolableObjectFactory<Object>) Class.forName(classForResourceFactory).newInstance();
+    }
 
-		synchronized (GenericObjectPoolImpl.class) {
-			if (INSTANCE != null)
-				return INSTANCE;
+    public static GenericObjectPoolImpl INSTANCE;
 
-			try {
-				INSTANCE = new GenericObjectPoolImpl();
-			} catch (ClassNotFoundException e) {
-				throw e;
-			} catch (Exception e) {
-				throw new RuntimeException(e.getMessage(), e);
-			}
-			return INSTANCE;
-		}
+    public static GenericObjectPoolImpl getInstance()
+            throws ClassNotFoundException {
+        if (INSTANCE != null)
+            return INSTANCE;
 
-	}
+        synchronized (GenericObjectPoolImpl.class) {
+            if (INSTANCE != null)
+                return INSTANCE;
+
+            try {
+                System.out.println("need reload GenericObjectPoolImpl");
+                INSTANCE = new GenericObjectPoolImpl();
+            } catch (ClassNotFoundException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+            return INSTANCE;
+        }
+
+    }
+
+
 
 }
