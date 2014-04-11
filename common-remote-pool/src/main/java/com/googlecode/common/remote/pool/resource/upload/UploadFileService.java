@@ -3,104 +3,104 @@ package com.googlecode.common.remote.pool.resource.upload;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import org.apache.commons.io.IOUtils;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import org.jboss.resteasy.annotations.Form;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
+import com.googlecode.common.remote.pool.impl.GenericObjectPoolImpl;
 
 @Path("/file")
 public class UploadFileService {
 
-    private final String UPLOADED_FILE_PATH =  this.getClass().getResource(".").getPath().replace("upload/", "").replace("upload\\", "");
+    private final String UPLOADED_FILE_PATH = UploadFileService.class.getClassLoader().getResource(".").getPath();
 
+    @POST
+    @Path("/upload")
+    @Consumes("multipart/form-data")
+    public Response uploadFile(@MultipartForm FileUploadForm form) {
+        String fileName = form.getFileName() == null ? "Unknown" : form.getFileName();
 
-	@POST
-	@Path("/upload")
-	@Consumes("multipart/form-data")
-	public Response uploadFile(MultipartFormDataInput input) {
+        System.out.println(UPLOADED_FILE_PATH);
+        System.out.println(fileName);
 
-	    System.out.println(UPLOADED_FILE_PATH);
+        String splits[] = fileName.split(Pattern.quote("."));
 
-		String fileName = "";
+        System.out.println(Arrays.toString(splits));
 
-		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
-		List<InputPart> inputParts = uploadForm.get("uploadedFile");
+        StringBuffer completeFilePath = new StringBuffer(UPLOADED_FILE_PATH);
+        for (int i = 0; i < splits.length - 2; i++) {
+            completeFilePath.append(splits[i]);
+            completeFilePath.append("/");
+        }
+        completeFilePath.append(splits[splits.length - 2]);
+        completeFilePath.append(".");
+        completeFilePath.append(splits[splits.length - 1]);
 
-		for (InputPart inputPart : inputParts) {
+        System.out.println(completeFilePath);
 
-			try {
+        try {
+            // Save the file
+            File file = new File(completeFilePath.toString());
 
-				MultivaluedMap<String, String> header = inputPart.getHeaders();
-				fileName = getFileName(header);
+            String parent = file.getParent();
+            if (parent != null) {
+                File parentFolder = new File(parent);
+                if (!parentFolder.exists())
+                    parentFolder.mkdirs();
+            }
 
-				//convert the uploaded file to inputstream
-				InputStream inputStream = inputPart.getBody(InputStream.class,null);
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
 
-				byte [] bytes = IOUtils.toByteArray(inputStream);
+            fos.write(form.getFileData());
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Response
+                    .status(500)
+                    .entity("[FAIL]: uploadFile is called, Target Path: " + completeFilePath
+                            + ", Uploaded file name : " + fileName).build();
+        }
+        // Build a response to return
+        return Response
+                .status(200)
+                .entity("[SUCCESS]: uploadFile is called, Target Path: " + completeFilePath
+                        + " , Uploaded file name : " + fileName).build();
+    }
 
-				//constructs upload file path
-				fileName = UPLOADED_FILE_PATH + fileName;
+    @POST
+    @Path("/setFactory")
+    public Response setFactory(@Form FactorySettingForm form) {
+        System.err.println(form.getFileName());
+        String fileName = form.getFileName() == null ? "Unknown" : form.getFileName();
+        URL resource = UploadFileService.class.getClassLoader().getResource("config.txt");
+        File file = new File(resource.getPath());
+        file.deleteOnExit();
 
-				writeFile(bytes,fileName);
+        try {
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(fileName.getBytes());
+            fos.flush();
+            fos.close();
 
-				System.out.println("Done");
+            GenericObjectPoolImpl.INSTANCE=null;
+            System.out.println("set null to GenericObjectPoolImpl");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Response.status(500).entity("[FAIL]: setFactory is called, set file name : " + fileName).build();
+        }
+        // Build a response to return
+        return Response.status(200).entity("[SUCCESS]: setFactory is called, set file name : " + fileName).build();
+    }
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-
-		return Response.status(200)
-				.entity("uploadFile is called, Uploaded file name : " + fileName).build();
-
-	}
-
-	/**
-	 * header sample
-	 * {
-	 * 		Content-Type=[image/png],
-	 * 		Content-Disposition=[form-data; name="file"; filename="filename.extension"]
-	 * }
-	 **/
-	//get uploaded filename, is there a easy way in RESTEasy?
-	private String getFileName(MultivaluedMap<String, String> header) {
-
-		String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
-
-		for (String filename : contentDisposition) {
-			if ((filename.trim().startsWith("filename"))) {
-
-				String[] name = filename.split("=");
-
-				String finalFileName = name[1].trim().replaceAll("\"", "");
-				return finalFileName;
-			}
-		}
-		return "unknown";
-	}
-
-	//save to somewhere
-	private void writeFile(byte[] content, String filename) throws IOException {
-
-		File file = new File(filename);
-
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-
-		FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-		fileOutputStream.write(content);
-		fileOutputStream.flush();
-		fileOutputStream.close();
-
-	}
 }
