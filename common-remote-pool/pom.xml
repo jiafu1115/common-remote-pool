@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.common-remote-pool</groupId>
 	<artifactId>common-remote-pool</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>0.0.1</version>
 	<name>Common Remote Pool Webapp</name>
 	<url>http://maven.apache.org</url>
@@ -24,10 +24,12 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
+		<!-- core library -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>2.3.1.GA</version>
+			<version>3.0.2.Final</version>
 			<!-- filter out unwanted jars -->
 			<exclusions>
 				<exclusion>
@@ -48,13 +50,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>2.2.1.GA</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-multipart-provider</artifactId>
@@ -100,18 +95,6 @@
 			<version>2.3.1.GA</version>
 		</dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- core library -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.2.Final</version>
-		</dependency>
 		<!-- JAXB support -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

@@ -1,6 +1,5 @@
 package com.googlecode.common.remote.pool.impl;
 
-import java.io.IOException;
 import java.util.EmptyStackException;
 
 import javax.ws.rs.Consumes;
@@ -11,133 +10,124 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.JavaType;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.jboss.resteasy.annotations.Form;
+import org.jboss.resteasy.spi.BadRequestException;
 
-import com.googlecode.common.remote.pool.resource.upload.FactorySettingForm;
+import com.googlecode.common.remote.pool.exception.NoResourceCanUsedException;
 
 @Path("object")
 public class ResourcePoolService {
 
-    private static ResourcePoolService INSTANCE;
+	private static ResourcePoolService INSTANCE;
 
-    public static ResourcePoolService getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
-        }
+	public static ResourcePoolService getInstance() {
+		if (INSTANCE != null) {
+			return INSTANCE;
+		}
 
-        synchronized (ResourcePoolService.class) {
-            if (INSTANCE != null) {
-                return INSTANCE;
-            }
+		synchronized (ResourcePoolService.class) {
+			if (INSTANCE != null) {
+				return INSTANCE;
+			}
 
-            INSTANCE = new ResourcePoolService();
-            return INSTANCE;
-        }
-    }
+			INSTANCE = new ResourcePoolService();
+			return INSTANCE;
+		}
+	}
 
-    @GET
-    @Path("borrow")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Object borrow() {
-        try {
-            Object borrowObject = getObjectPoolImpl().borrowObject();
-            if (borrowObject == null)
-                return Response.status(Response.Status.NOT_FOUND).entity("no resource can be used").build();
-            return borrowObject;
-        } catch (EmptyStackException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity("no resource can be used").build();
-        } catch (ClassNotFoundException e) {
-            return Response
-                    .status(Response.Status.NOT_ACCEPTABLE)
-                    .entity("no right factory class uploaded, the current enable class is: "
-                            + GenericObjectPoolImpl.classForResourceFactory).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
+	@GET
+	@Path("borrow")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Object borrow() throws Exception {
+		Object borrowObject = getObjectPoolImpl().borrowObject();
+		if (borrowObject == null)
+			throw new NoResourceCanUsedException();
 
-    @GET
-    @Path("drain")
-    public Response drain() {
-        try {
-            while (true) {
-                Object borrowObject = getObjectPoolImpl().borrowObject();
-                if (borrowObject == null)
-                    break;
-            }
-            return Response.status(200).entity("OK").build();
-        } catch (EmptyStackException e) {
-            return Response.status(200).entity("OK").build();
-        } catch (ClassNotFoundException e) {
-            return Response
-                    .status(Response.Status.NOT_ACCEPTABLE)
-                    .entity("no right factory class uploaded, the current enable class is: "
-                            + GenericObjectPoolImpl.classForResourceFactory).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
+		return borrowObject;
+	}
 
-    @POST
-    @Path("return")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void returnObject(Object object) {
-        try {
-            getObjectPoolImpl().returnObject(object);
-        } catch (ClassNotFoundException e) {
-            Response.status(Response.Status.NOT_ACCEPTABLE).entity("no factory class uploaded").build();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
+	@GET
+	@Path("getFactory")
+	public Response getFactory() {
+		String factory = GenericObjectPoolImpl.getClassForResourceFactory();
+		return Response.ok(factory, MediaType.TEXT_PLAIN_TYPE).build();
+	}
 
-    @POST
-    @Path("add")
-    public Response addObject(@Form ResouceAddForm form) {
-        System.out.println("reach here");
-        String jsonContent = form.getJsonContent().trim();
-        System.out.println("jsonContent:" + jsonContent);
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Object object = objectMapper.readValue(jsonContent, Object.class);
-            returnObject(object);
-            return Response.status(200).entity("OK").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.status(500).entity("FAIL:" + e.getMessage()).build();
-        }
+	@GET
+	@Path("drain")
+	public Response drain() throws Exception {
+		try {
+			while (true) {
+				Object borrowObject = getObjectPoolImpl().borrowObject();
+				if (borrowObject == null)
+					break;
+			}
+			return Response.status(200).entity("OK").build();
+		} catch (EmptyStackException e) {
+			return Response.status(200).entity("OK").build();
+		}
+	}
 
-    }
+	@POST
+	@Path("return")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void returnObject(Object object) throws Exception {
+		getObjectPoolImpl().returnObject(object);
+	}
 
-    /**
-     * FIXME when no factory, it return 0
-     *
-     * @return
-     */
-    @GET
-    @Path("active")
-    public int getIdleNumber() {
-        int activeNumber;
-        try {
-            activeNumber = getObjectPoolImpl().getNumActive();
-            return activeNumber;
+	@POST
+	@Path("add")
+	public Response addObject(@Form ResouceAddForm form) {
+		System.out.println("reach here");
 
-        } catch (ClassNotFoundException e) {
-            Response.status(500).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+		String jsonContent2 = form.getJsonContent();
+		if (jsonContent2.isEmpty()) {
+			throw new BadRequestException("content is empty");
+		}
+		String jsonContent = jsonContent2.trim();
+		System.out.println("jsonContent:" + jsonContent);
+		try {
+			if (jsonContent.startsWith("[")) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				Object[] readValue = objectMapper.readValue(jsonContent,
+						Object[].class);
+				for (Object object : readValue) {
+					returnObject(object);
+				}
 
-        return 1;
-    }
+			} else {
+				ObjectMapper objectMapper = new ObjectMapper();
+				Object object = objectMapper.readValue(jsonContent,
+						Object.class);
+				returnObject(object);
+			}
+			return Response.status(200).entity("OK").build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).entity("FAIL:" + e.getMessage())
+					.build();
+		}
 
-    private GenericObjectPoolImpl getObjectPoolImpl() throws ClassNotFoundException {
-        return GenericObjectPoolImpl.getInstance();
-    }
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("active")
+	public Response getIdleNumber() throws Exception {
+		int activeNumber = getObjectPoolImpl().getNumActive();
+		if (activeNumber < 0) {
+			activeNumber = -activeNumber;
+		}
+		return Response.ok(activeNumber, MediaType.TEXT_PLAIN_TYPE).build();
+	}
+
+	private GenericObjectPoolImpl getObjectPoolImpl() {
+		return GenericObjectPoolImpl.getInstance();
+	}
 }
