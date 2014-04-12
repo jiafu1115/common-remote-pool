@@ -5,12 +5,11 @@ import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 
-public class ResourceFactory implements PoolableObjectFactory<Object> {
-
+public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
 	private static Stack<Object> stack = new Stack<Object>();
 
-	public ResourceFactory(){
+	public DefaultResourceFactory(){
               //add only for demo.
   	}
 
