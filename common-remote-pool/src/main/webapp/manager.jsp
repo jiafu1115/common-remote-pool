@@ -3,29 +3,25 @@
 	<h1>Resource Manager</h1>
 
 
-    <h2>Add Resource</h2>
+    <h3>Add Resource</h3>
 
 	<form action="service/object/add" method="post"
 		enctype="application/x-www-form-urlencoded">
 		<p>
-			Json Object String: <input type="text" name="jsonContent" />
-			<br>
-			such as {"config":"1.txt"}
- 		</p>
+			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
+   		</p>
 		<input type="submit" value="add" />
 
 	 </form>
-
-
-<br>
-<br>
-<br>
-
-    <h2>Drain All Resource</h2>
+	 
+	 Note: if want to add multiple resource, you can use the format [{"file":"1.txt","owner":"jiafu"},{"file":"2.txt","owner":"jiafu"}]
+  
+<p>
+    <h3>Drain All Resource</h3>
 
  	<form action="service/object/drain" method="get"
         enctype="application/x-www-form-urlencoded">
-         <input type="submit" value="set" />
+         <input type="submit" value="drain" />
     </form>
 
 </body>

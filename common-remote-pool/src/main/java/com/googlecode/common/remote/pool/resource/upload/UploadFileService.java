@@ -81,7 +81,7 @@ public class UploadFileService {
     @Path("/setFactory")
     public Response setFactory(@Form FactorySettingForm form) {
         System.err.println(form.getFileName());
-        String fileName = form.getFileName() == null ? "Unknown" : form.getFileName();
+        String newResourceFactory = form.getFileName() == null ? "Unknown" : form.getFileName().trim();
         URL resource = UploadFileService.class.getClassLoader().getResource("config.txt");
         File file = new File(resource.getPath());
         file.deleteOnExit();
@@ -89,18 +89,18 @@ public class UploadFileService {
         try {
             file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file);
-            fos.write(fileName.getBytes());
+            fos.write(newResourceFactory.getBytes());
             fos.flush();
             fos.close();
 
-            GenericObjectPoolImpl.INSTANCE=null;
+            GenericObjectPoolImpl.resetPoolImpl(newResourceFactory);
             System.out.println("set null to GenericObjectPoolImpl");
         } catch (IOException e) {
             e.printStackTrace();
-            return Response.status(500).entity("[FAIL]: setFactory is called, set file name : " + fileName).build();
+            return Response.status(500).entity("[FAIL]: setFactory is called, set file name : " + newResourceFactory).build();
         }
         // Build a response to return
-        return Response.status(200).entity("[SUCCESS]: setFactory is called, set file name : " + fileName).build();
+        return Response.status(200).entity("[SUCCESS]: setFactory is called, set file name : " + newResourceFactory).build();
     }
 
 }
