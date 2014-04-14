@@ -120,14 +120,14 @@ Apache common object pool can help user to manager resource, but if use it , you
 		response code:200
 		response content: such as com.googlecode.common.remote.pool.resource.DefaultResourceFactory
  </pre>
- 
+
 <h4> --- Client style --- </h4>
 The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
 
 <p>
 <pre>
-com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String) 
-com.googlecode.common.remote.pool.client.CommonRemotePoolClient.borrowObject(Class<T>) 
+com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
+com.googlecode.common.remote.pool.client.CommonRemotePoolClient.borrowObject(Class<T>)
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.returnObject(Object)
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object...)
 </pre>
@@ -140,6 +140,11 @@ Need dependence:
 		<artifactId>resteasy-client</artifactId>
 		<version>3.0.2.Final</version>
 	</dependency>
+   <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>jaxrs-api</artifactId>
+      <version>3.0.2.Final</version>
+    </dependency>
 </xmp>
 </body>
 </html>
