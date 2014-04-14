@@ -77,7 +77,11 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
         LOG.info("set null to GenericObjectPoolImpl");
  		classForResourceFactory = newResourceFactory;
         LOG.info("set classForResourceFactory:"+newResourceFactory);
+ 	}
 
+	   public static void resetPoolImpl() {
+	        INSTANCE = null;
+	        LOG.info("set null to GenericObjectPoolImpl");
 	}
 
 	public static String getClassForResourceFactory() {
