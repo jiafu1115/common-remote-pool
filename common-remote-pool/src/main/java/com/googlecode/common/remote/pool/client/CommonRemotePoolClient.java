@@ -22,7 +22,7 @@ public class CommonRemotePoolClient {
     private String url;
 
     /**
-     * @param url such as http://10.224.38.166:8080/common-remote-pool/
+     * @param url such as http://10.224.38.166/common-remote-pool/
      */
     public CommonRemotePoolClient(String url) {
         super();
@@ -63,7 +63,7 @@ public class CommonRemotePoolClient {
             client.close();
         }
     }
-    
+
     public <T> boolean addObject(Object... objects) {
          ResteasyClient client = new ResteasyClientBuilder().build();
         try {
