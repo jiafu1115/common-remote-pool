@@ -135,16 +135,18 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 <p>
 Need dependence:
 <xmp>
-	<dependency>
-		<groupId>org.jboss.resteasy</groupId>
-		<artifactId>resteasy-client</artifactId>
-		<version>3.0.2.Final</version>
-	</dependency>
-   <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>jaxrs-api</artifactId>
-      <version>3.0.2.Final</version>
-    </dependency>
+
+       <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>2.3.1.GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.2.Final</version>
+        </dependency>
 </xmp>
 </body>
 </html>
