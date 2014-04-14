@@ -1,11 +1,14 @@
 <html>
-
+<head>
+<title>Common Remote Pool</title>
+<link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+</head>
 <body>
 
 
 <script type="text/javascript">  
  
-var url="http://localhost:8080/common-remote-pool/service/object/getFactory";
+var url="service/object/getFactory";
 var http_request;
 if(window.ActiveXObject){ 
             http_request= new ActiveXObject("Microsoft.XMLHTTP");  

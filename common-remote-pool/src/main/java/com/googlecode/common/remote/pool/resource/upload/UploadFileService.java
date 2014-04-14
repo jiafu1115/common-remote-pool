@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.jboss.resteasy.annotations.Form;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -19,7 +20,8 @@ import com.googlecode.common.remote.pool.impl.GenericObjectPoolImpl;
 
 @Path("/file")
 public class UploadFileService {
-
+	
+	private final static Logger LOG=Logger.getLogger(UploadFileService.class);
     private final String UPLOADED_FILE_PATH = UploadFileService.class.getClassLoader().getResource(".").getPath();
 
     @POST
@@ -28,12 +30,12 @@ public class UploadFileService {
     public Response uploadFile(@MultipartForm FileUploadForm form) {
         String fileName = form.getFileName() == null ? "Unknown" : form.getFileName();
 
-        System.out.println(UPLOADED_FILE_PATH);
-        System.out.println(fileName);
+        LOG.info(UPLOADED_FILE_PATH);
+        LOG.info(fileName);
 
         String splits[] = fileName.split(Pattern.quote("."));
 
-        System.out.println(Arrays.toString(splits));
+        LOG.info(Arrays.toString(splits));
 
         StringBuffer completeFilePath = new StringBuffer(UPLOADED_FILE_PATH);
         for (int i = 0; i < splits.length - 2; i++) {
@@ -44,7 +46,7 @@ public class UploadFileService {
         completeFilePath.append(".");
         completeFilePath.append(splits[splits.length - 1]);
 
-        System.out.println(completeFilePath);
+        LOG.info(completeFilePath);
 
         try {
             // Save the file
@@ -80,7 +82,7 @@ public class UploadFileService {
     @POST
     @Path("/setFactory")
     public Response setFactory(@Form FactorySettingForm form) {
-        System.err.println(form.getFileName());
+        LOG.info(form.getFileName());
         String newResourceFactory = form.getFileName() == null ? "Unknown" : form.getFileName().trim();
         URL resource = UploadFileService.class.getClassLoader().getResource("config.txt");
         File file = new File(resource.getPath());
@@ -94,7 +96,6 @@ public class UploadFileService {
             fos.close();
 
             GenericObjectPoolImpl.resetPoolImpl(newResourceFactory);
-            System.out.println("set null to GenericObjectPoolImpl");
         } catch (IOException e) {
             e.printStackTrace();
             return Response.status(500).entity("[FAIL]: setFactory is called, set file name : " + newResourceFactory).build();

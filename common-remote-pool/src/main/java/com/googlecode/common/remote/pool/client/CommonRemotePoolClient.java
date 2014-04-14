@@ -58,7 +58,22 @@ public class CommonRemotePoolClient {
             ResteasyWebTarget target = client.target(url + "service/object/return");
             Response response = target.request().post(Entity.json(object));
 
-            return response.getStatus() == 204;
+            return response.getStatus() <= 204 && response.getStatus()>=200;
+         } finally {
+            client.close();
+        }
+    }
+    
+    public <T> boolean addObject(Object... objects) {
+         ResteasyClient client = new ResteasyClientBuilder().build();
+        try {
+        	for (Object object2 : objects) {
+                ResteasyWebTarget target = client.target(url + "service/object/add");
+                Response response = target.request().post(Entity.json(object2));
+                if(response.getStatus() >204)
+                	return false;
+			}
+              return true;
          } finally {
             client.close();
         }
