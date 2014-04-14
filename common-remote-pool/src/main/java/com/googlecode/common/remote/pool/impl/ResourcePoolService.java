@@ -1,7 +1,6 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.lang.reflect.Method;
-import java.util.EmptyStackException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -62,6 +61,10 @@ public class ResourcePoolService {
 	@GET
 	@Path("drain")
 	public Response drain() throws Exception {
+        GenericObjectPoolImpl.resetPoolImpl();
+        return Response.status(200).entity("OK").build();
+
+	 /*
 		try {
 		    if(getObjectPoolImpl().getNumIdle()<=0)
 		        return Response.status(200).entity("OK").build();
@@ -73,7 +76,7 @@ public class ResourcePoolService {
 			return Response.status(200).entity("OK").build();
 		} catch (EmptyStackException e) {
 			return Response.status(200).entity("OK").build();
-		}
+		}*/
 	}
 
 	@POST
