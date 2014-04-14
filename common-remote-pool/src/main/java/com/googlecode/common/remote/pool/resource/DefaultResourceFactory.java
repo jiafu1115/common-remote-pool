@@ -18,7 +18,7 @@ public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 		try {
 			return stack.pop();
 		} catch (EmptyStackException e) {
-		    throw e;
+		    return null;
  		}
 	}
 
@@ -29,7 +29,7 @@ public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
 	@Override
 	public boolean validateObject(Object object) {
-		return false;
+		return object!=null;
 	}
 
 	@Override

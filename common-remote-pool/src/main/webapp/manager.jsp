@@ -1,4 +1,8 @@
 <html>
+<head>
+<title>Common Remote Pool</title>
+<link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+</head>
 <body>
 	<h1>Resource Manager</h1>
 
@@ -23,6 +27,10 @@
         enctype="application/x-www-form-urlencoded">
          <input type="submit" value="drain" />
     </form>
+    
+    <h3>Pool Infos</h3>
+      
+    <input type="button" onclick="window.open('service/object/info')" value="view">
 
 </body>
 </html>

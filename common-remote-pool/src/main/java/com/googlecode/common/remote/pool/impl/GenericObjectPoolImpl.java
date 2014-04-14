@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.log4j.Logger;
 
 import com.googlecode.common.remote.pool.exception.ResourceFactoryClassNoUploadException;
 
@@ -13,6 +14,7 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 
 	private static final String DEFAULT_RESOURCE_FACTORY = "com.googlecode.common.remote.pool.resource.ResourceFactory";
 	private static String classForResourceFactory = DEFAULT_RESOURCE_FACTORY;
+	private static final Logger LOG = Logger.getLogger(GenericObjectPoolImpl.class);
 
 	private static GenericObjectPoolImpl INSTANCE;
 
@@ -25,7 +27,7 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 				return INSTANCE;
 
 			try {
-				System.out.println("need reload GenericObjectPoolImpl");
+				LOG.info("need reload GenericObjectPoolImpl");
 				INSTANCE = new GenericObjectPoolImpl();
 			} catch (ClassNotFoundException e) {
 				throw new ResourceFactoryClassNoUploadException(
@@ -39,12 +41,13 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private GenericObjectPoolImpl() throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 		super(getFactoryInstance());
+		this.setTestOnBorrow(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static PoolableObjectFactory<Object> getFactoryInstance()
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
@@ -52,15 +55,14 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 				.getClassLoader().getResourceAsStream("config.txt");
 		try {
 			String string = IOUtils.toString(resourceAsStream);
-			System.out.println("import:" + string);
+			LOG.info("import:" + string);
 			if (string == null || string.isEmpty()) {
 				classForResourceFactory = DEFAULT_RESOURCE_FACTORY;
 			} else {
 				classForResourceFactory = string;
 			}
 
-			System.out.println("new classForResourceFactory: "
-					+ classForResourceFactory);
+			LOG.info("new classForResourceFactory: " + classForResourceFactory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -72,7 +74,10 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 
 	public static void resetPoolImpl(String newResourceFactory) {
 		INSTANCE = null;
-		classForResourceFactory = newResourceFactory;
+        LOG.info("set null to GenericObjectPoolImpl");
+ 		classForResourceFactory = newResourceFactory;
+        LOG.info("set classForResourceFactory:"+newResourceFactory);
+
 	}
 
 	public static String getClassForResourceFactory() {
