@@ -10,16 +10,8 @@ Apache common object pool can help user to manager resource, but if use it , you
 
 <%@ include file="initial.jsp" %>
 <%@ include file="usage.jsp" %>
+<%@ include file="managerusage.jsp" %>
 
-
-<h3>How to manager resource?</h3>
-
-<p>
-<ul>
-<li>By default implement, you can <a href="manager.jsp">manager</a> resource</li>
-</ul>
-
-<p>
 <br>
 
 </body>
