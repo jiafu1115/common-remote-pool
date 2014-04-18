@@ -1,10 +1,3 @@
-<html>
-<head>
-<title>Common Remote Pool</title>
-<link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
- </head>
-<body>
-
 <p>
 <h3>How to use it?</h3>
 
@@ -130,15 +123,10 @@ Need dependence:
             <artifactId>resteasy-jackson-provider</artifactId>
             <version>2.3.1.GA</version>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <version>3.0.2.Final</version>
         </dependency>
 </xmp>
-
-</body>
-</html>
-
 
