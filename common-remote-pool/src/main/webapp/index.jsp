@@ -7,13 +7,9 @@
 	<h2>Welcome to Common Remote Pool!</h2>
 Apache common object pool can help user to manager resource, but if use it , you only can share resources in one machine, So we use the object pool and resteasy framework to constructor one web service to provide distributed pool to share resources between multiple machines. The web common remote pool provide one default implement which can add any json string to pool and borrow json resource from it.What's more, the resource object factory's class can be uploaded into the web service. In short, the project is restful style web object pool for global access.
 
-<h3>How to initial it?</h3>
 
-<p>
-<ul>
-<li> run <b>mvn tomcat7:run</b> to start the web service;</li>
-<li>If you need define your implement, you should <a href="upload.jsp">upload</a>  your resource factory class , if you have no need, omit this step</li>
-</ul>
+<%@ include file="initial.jsp" %>
+
 
 <p>
 <h3>How to use it?</h3>
