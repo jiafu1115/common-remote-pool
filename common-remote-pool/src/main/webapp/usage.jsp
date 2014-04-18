@@ -1,12 +1,16 @@
 <p>
 <h3>How to use it?</h3>
 
-<h4> --- http request style --- </h4>
 
 <ul>
+
+   <li> http request style
+
+<ul>
+
 <li>borrow the object from pool</li>
-</ul>
-<pre>
+
+ <pre>
 	Request:
 	        GET http://localhost/common-remote-pool/service/object/borrow
 
@@ -19,9 +23,9 @@
 		response code:404
 
 </pre>
-<ul>
+
 <li>return resource to pool</li>
-</ul>
+
 <pre>
 	Request:
 		POST http://localhost/common-remote-pool/service/object/return
@@ -32,9 +36,9 @@
 		response code:204
 </pre>
 
-<ul>
+
 <li>add resource to pool</li>
-</ul>
+
 <pre>
 	Request:
 		POST http://localhost/common-remote-pool/service/object/add
@@ -45,9 +49,9 @@
 		response code:200
 </pre>
 
-<ul>
+
 <li>get borrowed resource number</li>
-</ul>
+
 <pre>
 	Request:
 		GET http://localhost/common-remote-pool/service/object/active
@@ -57,9 +61,9 @@
 		response body: number
 </pre>
 
-<ul>
+
 <li>get idle resource number</li>
-</ul>
+
 <pre>
 	Request:
 		GET http://localhost/common-remote-pool/service/object/idle
@@ -69,9 +73,9 @@
 		response body: number
 </pre>
 
-<ul>
+
 <li>get pools resource amount info</li>
-</ul>
+
 <pre>
 	Request:
 		GET http://localhost/common-remote-pool/service/object/idle
@@ -81,9 +85,9 @@
 		response body: {"idleNumber":3,"borrowedNumber":3,"totalNumber":6}
 </pre>
 
-<ul>
+
 <li>flush all resource</li>
-</ul>
+
 <pre>
 	Request:
 		GET http://localhost/common-remote-pool/service/object/drain
@@ -92,9 +96,9 @@
 		response code:200
  </pre>
 
-<ul>
+
 <li>query current enabled resource factory</li>
-</ul>
+
 <pre>
 	Request:
 		GET http://localhost/common-remote-pool/service/object/getFactory
@@ -104,9 +108,12 @@
 		response content: such as com.googlecode.common.remote.pool.resource.DefaultResourceFactory
  </pre>
 
-<h4> --- Client style --- </h4>
-The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
+</ul>
+</li>
+<li> Client style </li>
 
+The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
+<div>
 <p>
 <pre>
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
@@ -130,3 +137,5 @@ Need dependence:
         </dependency>
 </xmp>
 
+
+</ul>
