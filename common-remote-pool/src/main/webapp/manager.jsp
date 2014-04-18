@@ -15,6 +15,26 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
+$(document).ready(function(){
+  $("#view").click(function(){
+      $.get("service/object/info",function(data,status){
+         $("#infodiv").html(JSON.stringify(data));
+     });
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+  $("#drain").click(function(){
+      $.get("service/object/drain",function(data,status){
+          alert(data);
+     });
+  });
+});
+</script>
+
 <body>
 	<h1>Resource Manager</h1>
 
@@ -26,7 +46,7 @@ $(document).ready(function(){
 		<p>
 			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
    		</p>
-		<input type="submit" value="add" />
+		<input type="submit" value="add"  />
 
 	 </form>
 
@@ -35,10 +55,8 @@ $(document).ready(function(){
 <p>
     <h3>Drain All Resource</h3>
 
- 	<form action="service/object/drain" method="get"
-        enctype="application/x-www-form-urlencoded">
-         <input type="submit" value="drain" />
-    </form>
+    <button id="drain">drain</button>
+	<p>
 
     <h3>Pool Infos</h3>
 
