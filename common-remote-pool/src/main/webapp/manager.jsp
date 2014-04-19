@@ -27,7 +27,7 @@ $(function(){
 </script>
 
 <script>
-$(document).ready(function(){
+$(function(){
   $("#view").click(function(){
       $.get("service/object/info",function(data,status){
          $("#infodiv").html(JSON.stringify(data));
