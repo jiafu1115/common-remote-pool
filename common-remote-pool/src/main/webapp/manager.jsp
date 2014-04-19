@@ -5,6 +5,26 @@
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
 </head>
 
+
+<script>
+$(function(){
+    $("#addForm").submit(function(){
+        $.post("service/object/add", $("#addForm").serialize(),
+        function(data,status){
+            if(data== 'OK'){
+ 		 		alert("SUCCESS");
+            } else {
+ 				alert("FAIL");
+          }
+        }, "text");
+
+        return false;
+
+    });
+});
+
+</script>
+
 <script>
 $(document).ready(function(){
   $("#view").click(function(){
@@ -41,8 +61,7 @@ $(document).ready(function(){
 
     <h3>Add Resource</h3>
 
-	<form action="service/object/add" method="post"
-		enctype="application/x-www-form-urlencoded">
+	<form id="addForm"	enctype="application/x-www-form-urlencoded">
 		<p>
 			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
    		</p>
