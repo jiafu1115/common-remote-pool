@@ -5,33 +5,24 @@
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
 </head>
 
-
 <script>
 $(function(){
-    $("Form#addForm").submit(function(){
-        $.post("service/object/add", $("#addForm").serialize(),
-        function(data,status){
-            if(data== 'OK'){
- 		 		alert("SUCCESS");
-            } else {
- 				alert("FAIL");
-          }
-        }, "text");
+    $("#addForm").submit(function(){
+        $.ajax({
+        type: "POST",
+        url: "service/object/add",
+        data: $("#addForm").serialize(),
+        success: function(data) {
+		 		alert("SUCCESS");
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
 
         return false;
 
     });
-});
-
-</script>
-
-<script>
-$(document).ready(function(){
-  $("#view").click(function(){
-      $.get("service/object/info",function(data,status){
-         $("#infodiv").html(JSON.stringify(data));
-     });
-  });
 });
 </script>
 
