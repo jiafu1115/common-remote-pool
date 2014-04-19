@@ -8,7 +8,7 @@
 
 <script>
 $(function(){
-    $("#addForm").submit(function(){
+    $("Form#addForm").submit(function(){
         $.post("service/object/add", $("#addForm").serialize(),
         function(data,status){
             if(data== 'OK'){
