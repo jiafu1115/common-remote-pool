@@ -2,15 +2,37 @@
 <h3>How to use it?</h3>
 
 
+<script type="text/javascript">
+function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+var openTip = oOpenTip || "";
+var shutTip = oShutTip || "";
+if(targetObj.style.display!="none"){
+   if(shutAble) return;
+   targetObj.style.display="none";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = shutTip;
+   }
+} else {
+   targetObj.style.display="block";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = openTip;
+   }
+}
+}
+</script>
+
+
 <ul>
 
    <li> http request style
 
 <ul>
 
-<li>borrow the object from pool</li>
+<li><a href="###" onclick="openShutManager(this,'item1',false)">borrow the object from pool</a></li>
 
- <pre>
+  <pre id="item1" style="display:none">
 	Request:
 	        GET http://localhost/common-remote-pool/service/object/borrow
 
@@ -24,9 +46,10 @@
 
 </pre>
 
-<li>return resource to pool</li>
 
-<pre>
+<li><a href="###" onclick="openShutManager(this,'item2',false)">return resource to pool</a></li>
+
+<pre id="item2" style="display:none">
 	Request:
 		POST http://localhost/common-remote-pool/service/object/return
  		body: json
@@ -37,9 +60,9 @@
 </pre>
 
 
-<li>add resource to pool</li>
+<li><a href="###" onclick="openShutManager(this,'item3',false)">add resource to pool</a></li>
 
-<pre>
+<pre id="item3" style="display:none">
 	Request:
 		POST http://localhost/common-remote-pool/service/object/add
  		body: json
@@ -50,9 +73,9 @@
 </pre>
 
 
-<li>get borrowed resource number</li>
+<li><a href="###" onclick="openShutManager(this,'item4',false)">get borrowed resource number</a></li>
 
-<pre>
+<pre id="item4" style="display:none">
 	Request:
 		GET http://localhost/common-remote-pool/service/object/active
 
@@ -62,9 +85,9 @@
 </pre>
 
 
-<li>get idle resource number</li>
+<li><a href="###" onclick="openShutManager(this,'item5',false)">get idle resource number</a></li>
 
-<pre>
+<pre id="item5" style="display:none">
 	Request:
 		GET http://localhost/common-remote-pool/service/object/idle
 
@@ -74,9 +97,9 @@
 </pre>
 
 
-<li>get pools resource amount info</li>
+<li><a href="###" onclick="openShutManager(this,'item6',false)">get pools resource amount info</a></li>
 
-<pre>
+<pre id="item6" style="display:none">
 	Request:
 		GET http://localhost/common-remote-pool/service/object/idle
 
@@ -86,9 +109,9 @@
 </pre>
 
 
-<li>flush all resource</li>
+<li><a href="###" onclick="openShutManager(this,'item7',false)">flush all resource</a></li>
 
-<pre>
+<pre id="item7" style="display:none">
 	Request:
 		GET http://localhost/common-remote-pool/service/object/drain
 
@@ -97,9 +120,9 @@
  </pre>
 
 
-<li>query current enabled resource factory</li>
+<li><a href="###" onclick="openShutManager(this,'item8',false)">query current enabled resource factory</a></li>
 
-<pre>
+<pre id="item8" style="display:none">
 	Request:
 		GET http://localhost/common-remote-pool/service/object/getFactory
 
