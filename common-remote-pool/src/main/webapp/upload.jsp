@@ -69,8 +69,7 @@ $(function(){
 	</form>
  <p>
 
-    <h3>Step 2: Enable Core ResourceFactory Implement Class</h2>
-
+    <h3>Step 2: Enable Core ResourceFactory Implement Class</h3>
 
 
 	<form id="enableForm" enctype="application/x-www-form-urlencoded">
