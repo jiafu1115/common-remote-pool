@@ -22,6 +22,10 @@ public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
  		}
 	}
 
+	public static Stack<Object> getStack() {
+		return stack;
+	}
+
 	@Override
 	public void destroyObject(Object object) throws Exception {
 		stack.push(object);
