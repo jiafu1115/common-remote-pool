@@ -8,8 +8,10 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -78,6 +80,14 @@ public class UploadFileService {
                 .entity("[SUCCESS]: uploadFile is called, Target Path: " + completeFilePath
                         + " , Uploaded file name : " + fileName).build();
     }
+
+
+	@GET
+	@Path("/getFactory")
+	public Response getFactory() {
+		String factory = GenericObjectPoolImpl.getClassForResourceFactory();
+		return Response.ok(factory, MediaType.TEXT_PLAIN_TYPE).build();
+	}
 
     @POST
     @Path("/setFactory")
