@@ -38,7 +38,21 @@ public class DefaultResourcePoolService {
 		Field declaredField = superclass.getDeclaredField("_pool");
 		declaredField.setAccessible(true);
 
-     	return Response.ok(declaredField.get(getObjectPoolImpl()), MediaType.TEXT_PLAIN_TYPE).build();
+		String result=declaredField.get(getObjectPoolImpl()).toString();
+     	System.out.println(result);
+
+      	if(result.equalsIgnoreCase("[]"))
+     		 result="no any resource";
+
+    	System.out.println(result);
+
+    	result=result.replace(", {", "<br>{");
+    	result=result.replace("[", "");
+    	result=result.replace("]", "");
+
+
+
+		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 
