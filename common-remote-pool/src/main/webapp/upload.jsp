@@ -18,7 +18,7 @@ $(function(){
         data: $("#enableForm").serialize(),
         success: function(data) {
                 var currentFactory = document.getElementById("currentFactory");
-                currentFactory.innerHTML =data;
+                currentFactory.innerHTML =$("#enableForm").serialize().split("=")[1];
         },
         error: function() {
 	 		alert("FAIL");
