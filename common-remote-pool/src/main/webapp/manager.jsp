@@ -39,7 +39,7 @@ $(function(){
 <script>
 $(function(){
   $("#view").click(function(){
-      $.get("service/object/list",function(data,status){
+      $.get("service/object/info",function(data,status){
          $("#infodiv").html(JSON.stringify(data));
      });
   });
