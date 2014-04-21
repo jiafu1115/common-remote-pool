@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import com.googlecode.common.remote.pool.exception.CommonRemotePoolExceptionMapper;
+import com.googlecode.common.remote.pool.impl.DefaultResourcePoolService;
 import com.googlecode.common.remote.pool.impl.ResourcePoolService;
 import com.googlecode.common.remote.pool.resource.upload.UploadFileService;
 
@@ -32,7 +33,7 @@ public class CommonRemotePoolApplication extends Application {
 		singletons.add(new ResourcePoolService());
 		singletons.add(new UploadFileService());
 		singletons.add(new CommonRemotePoolExceptionMapper());
-
+		singletons.add(new DefaultResourcePoolService());
 	}
 
 }
