@@ -26,8 +26,9 @@ if(targetObj.style.display!="none"){
 
 <ul>
 
-   <li> http request style
-
+   <li><b> http request style</b>
+<br>
+<br>
 <ul>
 
 <li><a href="###" onclick="openShutManager(this,'item1',false)">borrow the object from pool</a></li>
@@ -133,8 +134,13 @@ if(targetObj.style.display!="none"){
 
 </ul>
 </li>
-<li> Client style </li>
 
+<br>
+<br>
+
+<li><b> client style </b></li>
+
+<br>
 The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
 <p>
 <pre>
