@@ -37,6 +37,26 @@ $(function(){
 </script>
 
 <script>
+$(function(){
+  $("#view").click(function(){
+      $.get("service/object/list",function(data,status){
+         $("#infodiv").html(JSON.stringify(data));
+     });
+  });
+});
+</script>
+
+<script>
+$(function(){
+  $("#listPool").click(function(){
+      $.get("service/object/list",function(data,status){
+         $("#listPoolDiv").html(data);
+     });
+  });
+});
+</script>
+
+<script>
 $(document).ready(function(){
   $("#drain").click(function(){
       $.get("service/object/drain",function(data,status){
@@ -66,12 +86,20 @@ $(document).ready(function(){
     <h3>Drain All Resource</h3>
 
     <button id="drain">drain</button>
-	<p>
+<p>
 
     <h3>Pool Infos</h3>
 
 	<button id="view">view</button>
 	<p>
 	<div id="infodiv"></div>
+
+<p>
+
+    <h3>Objects In Pool</h3>
+
+	<button id="listPool">list</button>
+	<p>
+	<div id="listPoolDiv"></div>
 </body>
 </html>
