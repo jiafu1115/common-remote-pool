@@ -9,6 +9,25 @@
 </head>
 <body>
 
+
+<script>
+window.onload =function(){
+    $.ajax({
+    type: "GET",
+    url: "service/object/getFactory",
+    success: function(data) {
+            var currentFactory = document.getElementById("currentFactory");
+            currentFactory.innerHTML=data;
+    },
+    error: function() {
+ 		alert("FAIL");
+	}
+    });
+
+    return false;
+}
+</script>
+
 <script>
 $(function(){
     $("#enableForm").submit(function(){
@@ -31,35 +50,7 @@ $(function(){
 });
 </script>
 
-<script type="text/javascript">
 
-var url="service/object/getFactory";
-var http_request;
-if(window.ActiveXObject){
-            http_request= new ActiveXObject("Microsoft.XMLHTTP");
-}else if(window.XMLHttpRequest){
-            http_request= new XMLHttpRequest();
-}
-
-http_request.open("GET", url, true);
-http_request.onreadystatechange = processTextResponse;
-http_request.send();
-
-function processTextResponse()
-{
-         if (http_request.readyState == 4)
- 			{
-                if (http_request.status == 200)
-  				{
-                        var content = http_request.responseText;
-                        var errtd = document.getElementById("currentFactory");
-                        errtd.innerHTML =content;
-
-                 }
-            }
-
-}
-</script>
 
 
 	<h1>ResourceFactory Implement Class Customized</h1>
