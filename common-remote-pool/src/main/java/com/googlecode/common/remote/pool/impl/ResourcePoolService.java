@@ -63,20 +63,6 @@ public class ResourcePoolService {
 	public Response drain() throws Exception {
         GenericObjectPoolImpl.resetPoolImpl();
         return Response.status(200).entity("OK").build();
-
-	 /*
-		try {
-		    if(getObjectPoolImpl().getNumIdle()<=0)
-		        return Response.status(200).entity("OK").build();
-			while (true) {
-				Object borrowObject = getObjectPoolImpl().borrowObject();
-				if (borrowObject == null)
-					break;
-			}
-			return Response.status(200).entity("OK").build();
-		} catch (EmptyStackException e) {
-			return Response.status(200).entity("OK").build();
-		}*/
 	}
 
 	@POST
