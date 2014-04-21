@@ -136,7 +136,6 @@ if(targetObj.style.display!="none"){
 <li> Client style </li>
 
 The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
-<div>
 <p>
 <pre>
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
@@ -146,9 +145,8 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 </pre>
 
 <p>
-Need dependence:
-<xmp>
-       <dependency>
+dependence:
+<xmp>       <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson-provider</artifactId>
             <version>2.3.1.GA</version>
