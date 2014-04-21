@@ -20,7 +20,7 @@ import com.googlecode.common.remote.pool.impl.GenericObjectPoolImpl;
 
 @Path("/file")
 public class UploadFileService {
-	
+
 	private final static Logger LOG=Logger.getLogger(UploadFileService.class);
     private final String UPLOADED_FILE_PATH = UploadFileService.class.getClassLoader().getResource(".").getPath();
 
@@ -97,11 +97,10 @@ public class UploadFileService {
 
             GenericObjectPoolImpl.resetPoolImpl(newResourceFactory);
         } catch (IOException e) {
-            e.printStackTrace();
-            return Response.status(500).entity("[FAIL]: setFactory is called, set file name : " + newResourceFactory).build();
+            return Response.status(500).entity("[FAIL]: " + e.getMessage()).build();
         }
         // Build a response to return
-        return Response.status(200).entity("[SUCCESS]: setFactory is called, set file name : " + newResourceFactory).build();
+        return Response.status(200).entity("[SUCCESS]: setFactory is called, new resourceFactory implement class : " + newResourceFactory).build();
     }
 
 }

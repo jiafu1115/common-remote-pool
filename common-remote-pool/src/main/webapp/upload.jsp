@@ -1,40 +1,65 @@
 <html>
 <head>
 <title>Common Remote Pool</title>
+
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+
+<script src="scripts/jquery-1.11.0.js"></script>
+
 </head>
 <body>
 
+<script>
+$(function(){
+    $("#enableForm").submit(function(){
+        $.ajax({
+        type: "POST",
+        url: "service/file/setFactory",
+        data: $("#enableForm").serialize(),
+        success: function(data) {
+                var currentFactory = document.getElementById("currentFactory");
+                currentFactory.innerHTML =data;
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
 
-<script type="text/javascript">  
- 
+        return false;
+
+    });
+});
+</script>
+
+<script type="text/javascript">
+
 var url="service/object/getFactory";
 var http_request;
-if(window.ActiveXObject){ 
-            http_request= new ActiveXObject("Microsoft.XMLHTTP");  
-}else if(window.XMLHttpRequest){ 
-            http_request= new XMLHttpRequest();  
-}  
-  
+if(window.ActiveXObject){
+            http_request= new ActiveXObject("Microsoft.XMLHTTP");
+}else if(window.XMLHttpRequest){
+            http_request= new XMLHttpRequest();
+}
+
 http_request.open("GET", url, true);
 http_request.onreadystatechange = processTextResponse;
 http_request.send();
-    
-function processTextResponse() 
+
+function processTextResponse()
 {
-         if (http_request.readyState == 4) 
+         if (http_request.readyState == 4)
  			{
-                if (http_request.status == 200) 
+                if (http_request.status == 200)
   				{
                         var content = http_request.responseText;
                         var errtd = document.getElementById("currentFactory");
                         errtd.innerHTML =content;
-                          
-                 } 
-            } 
- 
+
+                 }
+            }
+
 }
-</script> 
+</script>
 
 
 	<h1>ResourceFactory Implement Class Customized</h1>
@@ -57,15 +82,12 @@ function processTextResponse()
 
 
 
-	   <form action="service/file/setFactory" method="post"
-        enctype="application/x-www-form-urlencoded">
-        <p>
-             <input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="70"/>
-            <p><input type="submit" value="Enable" />
-         </p>
-    </form>
-    
-    Current Resource Factory is: <div id="currentFactory"></div> 
+	<form id="enableForm" enctype="application/x-www-form-urlencoded">
+        <p><input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="70"/>
+        <p><input type="submit" value="Enable" />
+     </form>
+
+    Current Resource Factory is: <div id="currentFactory"></div>
 
 	<p>
 		<h4>Note: </h4>
