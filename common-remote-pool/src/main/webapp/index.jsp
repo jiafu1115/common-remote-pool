@@ -2,6 +2,7 @@
 <head>
 <title>Common Remote Pool</title>
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+<link type="text/css" rel="stylesheet" href="css/style.css">
  </head>
 <body>
 	<h2>Welcome to Common Remote Pool!</h2>
