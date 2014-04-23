@@ -2,5 +2,5 @@
 
 <p>
 <ul>
-<li>You can <a href="manager.jsp">manage</a> resource by default resouce factory implement</li>
+<li>You can <a href="manager.jsp">manage</a> resource by default resource factory implement.</li>
 </ul>
