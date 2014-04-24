@@ -108,7 +108,6 @@ $(document).ready(function(){
 	<p>
 	<div id="listPoolDiv"></div>
 
-<hr>
-<%@ include file="counter.jsp" %>
+<p>
 </body>
 </html>
