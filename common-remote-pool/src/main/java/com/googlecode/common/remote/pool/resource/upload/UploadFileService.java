@@ -32,7 +32,7 @@ public class UploadFileService {
     public Response uploadFile(@MultipartForm FileUploadForm form) {
         String fileName = form.getFileName() == null ? "Unknown" : form.getFileName();
 
-        LOG.info(UPLOADED_FILE_PATH);
+        LOG.info("Default Store Root Path: "+UPLOADED_FILE_PATH);
         LOG.info(fileName);
 
         String splits[] = fileName.split(Pattern.quote("."));
