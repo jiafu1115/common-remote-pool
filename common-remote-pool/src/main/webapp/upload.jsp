@@ -59,7 +59,7 @@ $(function(){
 	<form action="service/file/upload" method="post"
 		enctype="multipart/form-data">
 		<p>
-			* Target full path : <input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory.class" size="70"/>
+			* Target full path : <input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory.class" size="81"/>
 		</p>
 		<p>
 			* Choose file : <input type="file" name="selectedFile" />
@@ -72,7 +72,7 @@ $(function(){
 
 
 	<form id="enableForm" enctype="application/x-www-form-urlencoded">
-        <p><input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="70"/>
+        <p><input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="78"/>
         <p> 		    <button>enable</button>
 
      </form>

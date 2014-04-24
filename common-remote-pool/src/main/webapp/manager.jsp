@@ -75,7 +75,7 @@ $(document).ready(function(){
 
 	<form id="addForm"	enctype="application/x-www-form-urlencoded">
 		<p>
-			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
+			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=26/>
    	 <p>
     	 Format:
     	 <ul>
