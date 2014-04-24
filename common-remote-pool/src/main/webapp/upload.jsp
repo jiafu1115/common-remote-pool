@@ -10,6 +10,32 @@
 </head>
 <body>
 
+<script>
+$(function(){
+ 	$("form#uploadForm").submit(function(){
+      var formData = new FormData($(this)[0]);
+    $.ajax({
+        url: "service/file/upload",
+        type: "POST",
+        data: formData,
+        async: false,
+        success: function (data) {
+            var uploadResultDiv = document.getElementById("uploadResultDiv");
+            uploadResultDiv.innerHTML =data;
+        },
+        error: function() {
+     		alert("FAIL");
+    	},
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
+    });
+});
+</script>
+
 
 <script>
 window.onload =function(){
@@ -26,7 +52,7 @@ window.onload =function(){
     });
 
     return false;
-}
+};
 </script>
 
 <script>
@@ -57,7 +83,7 @@ $(function(){
 <hr>
     <h3>Step 1: Upload ResourceFactory Implement Related Class/Resource</h3>
 
-	<form action="service/file/upload" method="post"
+	<form id="uploadForm"   method="post"
 		enctype="multipart/form-data">
 		<p>
  		<label for="fileName">* Target full path :</label>
@@ -69,6 +95,8 @@ $(function(){
  		  <button>upload</button>
 	</form>
  <p>
+
+     <div id="uploadResultDiv"></div>
 
     <h3>Step 2: Enable Core ResourceFactory Implement Class</h3>
 
