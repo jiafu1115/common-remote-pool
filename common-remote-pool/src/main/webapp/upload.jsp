@@ -60,12 +60,13 @@ $(function(){
 	<form action="service/file/upload" method="post"
 		enctype="multipart/form-data">
 		<p>
-			* Target full path : <input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory.class" size="81"/>
-		</p>
+ 		<label for="fileName">* Target full path :</label>
+		<input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory.class" size="81"/>
+ 		<p>
+		<label for="selectedFile">* Choose file :</label>
+			 <input type="file" name="selectedFile" />
 		<p>
-			* Choose file : <input type="file" name="selectedFile" />
-		</p>
-		  <button>upload</button>
+ 		  <button>upload</button>
 	</form>
  <p>
 
