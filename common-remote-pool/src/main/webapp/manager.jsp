@@ -29,33 +29,44 @@ $(function(){
 
 <script>
 $(function(){
-  $("#view").click(function(){
-      $.get("service/object/info",function(data,status){
-         $("#infodiv").html(JSON.stringify(data));
-     });
-  });
+    $("#view").click(function(){
+        $.ajax({
+        type: "GET",
+        url: "service/object/info",
+        success: function(data) {
+            $("#infodiv").html(JSON.stringify(data));
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
+
+        return false;
+
+    });
 });
 </script>
 
 <script>
 $(function(){
-  $("#view").click(function(){
-      $.get("service/object/info",function(data,status){
-         $("#infodiv").html(JSON.stringify(data));
-     });
-  });
+    $("#listPool").click(function(){
+        $.ajax({
+        type: "GET",
+        url: "service/object/list",
+        success: function(data) {
+            $("#listPoolDiv").html(JSON.stringify(data));
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
+
+        return false;
+
+    });
 });
 </script>
 
-<script>
-$(function(){
-  $("#listPool").click(function(){
-      $.get("service/object/list",function(data,status){
-         $("#listPoolDiv").html(data);
-     });
-  });
-});
-</script>
 
 <script>
 $(document).ready(function(){
