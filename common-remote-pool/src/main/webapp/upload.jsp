@@ -64,7 +64,7 @@ $(function(){
 		<p>
 			* Choose file : <input type="file" name="selectedFile" />
 		</p>
-		<input type="submit" value="Upload" />
+		  <button>upload</button>
 	</form>
  <p>
 
@@ -73,7 +73,8 @@ $(function(){
 
 	<form id="enableForm" enctype="application/x-www-form-urlencoded">
         <p><input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="70"/>
-        <p><input type="submit" class="minimal-indent" value="Enable" />
+        <p> 		    <button>enable</button>
+
      </form>
 
     Current Resource Factory is: <div id="currentFactory"></div>
@@ -81,7 +82,7 @@ $(function(){
 	<p>
 	<hr>
 		<h4>Note: </h4>
-		<t>The class should use implement <code>org.apache.commons.pool.PoolableObjectFactory</code>
+		<p>The class should use implement <code>org.apache.commons.pool.PoolableObjectFactory</code>
 		,its code example can refer to <a
 			href="https://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/resource/DefaultResourceFactory.java">example</a>.What's
 		more, you should add followed dependence into your pom.xml:

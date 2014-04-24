@@ -1,25 +1,25 @@
 a:hover {
-	background-color: yellow;
+	background-color: 3399FF;
 }
 
-button.minimal-indent {
-	background-color: #f3f3f3;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3),
+button {
+	background-color: #3399FF;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3399FF),
 		color-stop(50%, #dddddd), color-stop(50%, #d2d2d2),
 		color-stop(100%, #dfdfdf) );
-	background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #dddddd 50%, #d2d2d2 50%,
+	background-image: -webkit-linear-gradient(top, #3399FF 0%, #dddddd 50%, #d2d2d2 50%,
 		#dfdfdf 100%);
-	background-image: -moz-linear-gradient(top, #f3f3f3 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
+	background-image: -moz-linear-gradient(top, #3399FF 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
 		100%);
-	background-image: -ms-linear-gradient(top, #f3f3f3 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
+	background-image: -ms-linear-gradient(top, #3399FF 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
 		100%);
-	background-image: -o-linear-gradient(top, #f3f3f3 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
+	background-image: -o-linear-gradient(top, #3399FF 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf
 		100%);
-	background-image: linear-gradient(top, #f3f3f3 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf 100%);
+	background-image: linear-gradient(top, #3399FF 0%, #dddddd 50%, #d2d2d2 50%, #dfdfdf 100%);
 	border-right: 1px solid #dfdfdf;
 	border-bottom: 1px solid #b4b4b4;
 	border-right: 1px solid #dfdfdf;
-	border-radius: 5px;
+	border-radius: 6px;
 	-webkit-box-shadow: inset 0 1px 0 0 white, 0 1px 0 0 #d5d5d5, 0 -1px 2px
 		1px #efefef;
 	box-shadow: inset 0 1px 0 0 white, 0 1px 0 0 #d5d5d5, 0 -1px 2px 1px
@@ -29,10 +29,10 @@ button.minimal-indent {
 	margin: 0;
 	padding: 4px 0;
 	text-shadow: 0 1px 1px #fff;
-	width: 50px;
+	width: 58px;
 }
 
-button.minimal-indent:hover {
+button:hover {
 	background-color: #e5e5e5;
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e5e5e5),
 		color-stop(50%, #d1d1d1), color-stop(50%, #c4c4c4),
@@ -53,7 +53,17 @@ button.minimal-indent:hover {
 	cursor: pointer;
 }
 
-button.minimal-indent:active {
+hr {
+	color: #3399FF;
+	height: 1px;
+	border: 0px;
+	border-top: 1px solid #3399FF;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+button:active {
 	-webkit-box-shadow: inset 0 0 30px 0 #999999, 0 1px 0 0 white;
 	box-shadow: inset 0 0 30px 0 #999999, 0 1px 0 0 white;
 }

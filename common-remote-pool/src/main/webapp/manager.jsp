@@ -76,12 +76,16 @@ $(document).ready(function(){
 	<form id="addForm"	enctype="application/x-www-form-urlencoded">
 		<p>
 			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
-   		</p>
- 		    <button>add</button>
+   	 <p>
+    	 Format:
+    	 <ul>
+   	 	 <li>add single resource, you can use the format <i> <code> {"file":"1.txt","owner":"jiafu"} </code> </i></li>
+    	 <li>add multiple resource, you can use the format <i> <code> [{"file":"1.txt","owner":"jiafu"},{"file":"2.txt","owner":"jiafu"}] </code></i></li>
+		</ul>
+  		    <button>add</button>
  	 </form>
 
 
-	 Note: if want to add multiple resource, you can use the format [{"file":"1.txt","owner":"jiafu"},{"file":"2.txt","owner":"jiafu"}]
 
 <p>
 <hr>
