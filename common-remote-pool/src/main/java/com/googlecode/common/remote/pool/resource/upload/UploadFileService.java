@@ -71,14 +71,12 @@ public class UploadFileService {
             e.printStackTrace();
             return Response
                     .status(500)
-                    .entity("[FAIL]: uploadFile is called, Target Path: " + completeFilePath
-                            + ", Uploaded file name : " + fileName).build();
+                    .entity("[FAIL]: Target Path: " + completeFilePath).build();
         }
         // Build a response to return
         return Response
                 .status(200)
-                .entity("[SUCCESS]: uploadFile is called, Target Path: " + completeFilePath
-                        + " , Uploaded file name : " + fileName).build();
+                .entity("[SUCCESS]: Target Path: " + completeFilePath).build();
     }
 
 
