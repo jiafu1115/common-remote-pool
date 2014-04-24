@@ -162,7 +162,8 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 </pre>
 
 <p>
-dependence:
+Dependence:
+<i>
 <xmp>       <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson-provider</artifactId>
@@ -174,6 +175,6 @@ dependence:
             <version>3.0.2.Final</version>
         </dependency>
 </xmp>
-
+</i>
 
 </ul>
