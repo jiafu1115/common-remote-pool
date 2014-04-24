@@ -83,6 +83,8 @@ public class UploadFileService {
 	private String getRootPath() {
 		URL resource = UploadFileService.class.getResource(".");
 		System.out.println(resource.getPath());
+        LOG.info("importurl"+resource.getPath());
+
 		return resource.getPath().replaceAll("classes(.*)", "classes");
 	}
 
