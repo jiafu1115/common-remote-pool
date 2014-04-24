@@ -5,6 +5,7 @@
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
 <link type="text/css" rel="stylesheet" href="css/style.css">
 <script src="scripts/jquery-1.11.0.js"></script>
+<script src="scripts/ajaxfileupload.js"></script>
 
 </head>
 <body>
