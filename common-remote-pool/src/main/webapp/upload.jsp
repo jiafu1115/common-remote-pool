@@ -86,14 +86,14 @@ $(function(){
 		,its code example can refer to <a
 			href="https://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/resource/DefaultResourceFactory.java">example</a>.What's
 		more, you should add followed dependence into your pom.xml:
-		<xmp>
+	<i>	<xmp>
 <dependency>
   <groupId>commons-pool</groupId>
   <artifactId>commons-pool</artifactId>
   <version>1.6</version>
   <type>jar</type>
 </dependency>
-		</xmp>
+		</xmp></i>
 <p>
 </body>
 </html>
