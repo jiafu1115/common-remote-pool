@@ -3,6 +3,7 @@
 <script src="scripts/jquery-1.11.0.js"></script>
 <title>Common Remote Pool</title>
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+<link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <script>
@@ -68,8 +69,8 @@ $(document).ready(function(){
 
 <body>
 	<h1>Resource Manager</h1>
-
-
+<p>
+<hr>
     <h3>Add Resource</h3>
 
 	<form id="addForm"	enctype="application/x-www-form-urlencoded">
@@ -83,11 +84,12 @@ $(document).ready(function(){
 	 Note: if want to add multiple resource, you can use the format [{"file":"1.txt","owner":"jiafu"},{"file":"2.txt","owner":"jiafu"}]
 
 <p>
+<hr>
     <h3>Drain All Resource</h3>
 
     <button id="drain">drain</button>
 <p>
-
+<hr>
     <h3>Pool Infos</h3>
 
 	<button id="view">view</button>
@@ -95,7 +97,7 @@ $(document).ready(function(){
 	<div id="infodiv"></div>
 
 <p>
-
+<hr>
     <h3>Objects In Pool</h3>
 
 	<button id="listPool">list</button>
