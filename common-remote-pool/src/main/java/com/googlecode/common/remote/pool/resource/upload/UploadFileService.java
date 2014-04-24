@@ -24,7 +24,7 @@ import com.googlecode.common.remote.pool.impl.GenericObjectPoolImpl;
 public class UploadFileService {
 
 	private final static Logger LOG=Logger.getLogger(UploadFileService.class);
-    private final String UPLOADED_FILE_PATH = UploadFileService.class.getClassLoader().getResource(".").getPath();
+    private final String UPLOADED_FILE_PATH = getRootPath();
 
     @POST
     @Path("/upload")
@@ -78,6 +78,12 @@ public class UploadFileService {
                 .status(200)
                 .entity("[SUCCESS]: Target Path: " + completeFilePath).build();
     }
+
+
+	private String getRootPath() {
+		URL resource = UploadFileService.class.getResource(".");
+		return resource.getPath().replaceAll("classes(.*)", "classes");
+	}
 
 
 	@GET
