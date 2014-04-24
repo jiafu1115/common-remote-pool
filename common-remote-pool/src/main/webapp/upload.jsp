@@ -3,7 +3,7 @@
 <title>Common Remote Pool</title>
 
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
-
+<link type="text/css" rel="stylesheet" href="css/style.css">
 <script src="scripts/jquery-1.11.0.js"></script>
 
 </head>
@@ -51,10 +51,9 @@ $(function(){
 </script>
 
 
-
-
 	<h1>ResourceFactory Implement Class Customized</h1>
 <p>
+<hr>
     <h3>Step 1: Upload ResourceFactory Implement Related Class/Resource</h3>
 
 	<form action="service/file/upload" method="post"
@@ -74,12 +73,13 @@ $(function(){
 
 	<form id="enableForm" enctype="application/x-www-form-urlencoded">
         <p><input type="text" name="fileName" value="com.googlecode.common.remote.pool.resource.DefaultResourceFactory" size="70"/>
-        <p><input type="submit" value="Enable" />
+        <p><input type="submit" class="minimal-indent" value="Enable" />
      </form>
 
     Current Resource Factory is: <div id="currentFactory"></div>
 
 	<p>
+	<hr>
 		<h4>Note: </h4>
 		<t>The class should use implement <code>org.apache.commons.pool.PoolableObjectFactory</code>
 		,its code example can refer to <a
