@@ -77,9 +77,9 @@ $(document).ready(function(){
 		<p>
 			Json String: <input type="text" name="jsonContent" value="{&quot;file&quot;:&quot;1.txt&quot;,&quot;owner&quot;:&quot;jiafu&quot;}"  size=22/>
    		</p>
-		<input type="submit" value="add"  />
+ 		    <button>add</button>
+ 	 </form>
 
-	 </form>
 
 	 Note: if want to add multiple resource, you can use the format [{"file":"1.txt","owner":"jiafu"},{"file":"2.txt","owner":"jiafu"}]
 
