@@ -93,5 +93,7 @@ $(function(){
   <type>jar</type>
 </dependency>
 		</xmp>
+<hr>
+<%@ include file="counter.jsp" %>
 </body>
 </html>
