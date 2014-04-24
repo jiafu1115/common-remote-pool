@@ -132,6 +132,17 @@ if(targetObj.style.display!="none"){
 		response content: such as com.googlecode.common.remote.pool.resource.DefaultResourceFactory
  </pre>
 
+ <li><a href="###" onclick="openShutManager(this,'item9',false)">list all idle objects in pool</a></li>
+
+<pre id="item9" style="display:none">
+	Request:
+		GET http://localhost/common-remote-pool/service/object/list
+
+	Response:
+		response code:200
+		response content: "no any no any resource" or {file=1.txt, owner=jiafu};1398308940353
+ </pre>
+
 </ul>
 </li>
 
