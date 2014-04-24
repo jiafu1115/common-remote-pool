@@ -1,4 +1,4 @@
-<h3>How to manager resource?</h3>
+<h3>How to manage resource?</h3>
 
 <p>
 <ul>

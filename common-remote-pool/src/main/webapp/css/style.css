@@ -2,6 +2,8 @@ a:hover {
 	background-color: 3399FF;
 }
 
+body { font-family: Verdana, Arial, Sans-serif; }
+
 button {
 	background-color: #3399FF;
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3399FF),
