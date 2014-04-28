@@ -54,7 +54,7 @@ $(function(){
         type: "GET",
         url: "service/object/list",
         success: function(data) {
-            $("#listPoolDiv").html(JSON.stringify(data));
+            $("#listPoolDiv").html(data);
         },
         error: function() {
 	 		alert("FAIL");
