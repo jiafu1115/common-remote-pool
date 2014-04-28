@@ -13,7 +13,7 @@
 
 <script>
 $(function(){
-$("#drain").easyconfirm({locale: {title: 'Are you sure this operation?', text: 'if continue,all resource will be cleared!',button: ['NO','YES']}});
+$("#drain").easyconfirm({locale: {title: 'Are you sure?', button: ['No','Yes']}});
 });
 </script>
 
