@@ -140,7 +140,7 @@ if(targetObj.style.display!="none"){
 
 	Response:
 		response code:200
-		response content: "no any no any resource" or {file=1.txt, owner=jiafu};1398308940353
+		response content: "no any resource" or {file=1.txt, owner=jiafu}:2014-04-28 14:29:34
  </pre>
 
 </ul>
