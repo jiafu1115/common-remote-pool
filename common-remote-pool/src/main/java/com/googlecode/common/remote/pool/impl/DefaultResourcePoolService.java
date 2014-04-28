@@ -47,8 +47,8 @@ public class DefaultResourcePoolService {
       	LOG.info("after handle one: "+result);
 
     	result=result.replace(", {", "<br>{");
-    	result=result.replace("\"[", "");
-    	result=result.replace("]\"", "");
+    	result=result.replace("[", "");
+    	result=result.replace("]", "");
 
       	LOG.info("after handle two: "+result);
 
