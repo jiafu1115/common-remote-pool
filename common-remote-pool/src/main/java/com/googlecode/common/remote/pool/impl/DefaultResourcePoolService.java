@@ -39,18 +39,18 @@ public class DefaultResourcePoolService {
 		declaredField.setAccessible(true);
 
 		String result=declaredField.get(getObjectPoolImpl()).toString();
-     	System.out.println(result);
+		LOG.info("before handle: "+result);
 
       	if(result.equalsIgnoreCase("[]"))
      		 result="no any resource";
 
-    	System.out.println(result);
+      	LOG.info("after handle one: "+result);
 
     	result=result.replace(", {", "<br>{");
-    	result=result.replace("[", "");
-    	result=result.replace("]", "");
+    	result=result.replace("\"[", "");
+    	result=result.replace("]\"", "");
 
-
+      	LOG.info("after handle two: "+result);
 
 		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
 	}
