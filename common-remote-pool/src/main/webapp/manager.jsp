@@ -4,7 +4,19 @@
 <title>Common Remote Pool</title>
 <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
 <link type="text/css" rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/blitzer/jquery-ui.css" type="text/css" />
+
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="scripts/jquery.easy-confirm-dialog.js"></script>
 </head>
+
+<script>
+$(function(){
+$("#drain").easyconfirm({locale: { minHeight : 100, // default 120
+    maxHeight : 250 , title: 'Are you sure this operation?', text: 'if continue,all resource will be cleared!',button: ['NO','YES']}});
+});
+</script>
 
 <script>
 $(function(){
@@ -102,7 +114,7 @@ $(document).ready(function(){
 <hr>
     <h3>Drain All Resource</h3>
 
-    <button id="drain">drain</button>
+    <button id="drain" >drain</button>
 <p>
 <hr>
     <h3>Pool Infos</h3>
