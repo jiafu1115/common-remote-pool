@@ -79,7 +79,7 @@ $(document).ready(function(){
 </script>
 
 <body>
-	<h1>Resource Manager</h1>
+	<h2>Resource Manager</h2>
 <p>
 <hr>
     <h3>Add Resource</h3>

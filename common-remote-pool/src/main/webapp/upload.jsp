@@ -78,7 +78,7 @@ $(function(){
 </script>
 
 
-	<h1>ResourceFactory Implement Class Customized</h1>
+	<h2>ResourceFactory Implement Class Customized</h2>
 <p>
 <hr>
     <h3>Step 1: Upload ResourceFactory Implement Related Class/Resource</h3>
