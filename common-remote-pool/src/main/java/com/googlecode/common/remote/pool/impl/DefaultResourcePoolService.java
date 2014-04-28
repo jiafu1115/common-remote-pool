@@ -1,6 +1,10 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -52,10 +56,29 @@ public class DefaultResourcePoolService {
 
     	result+="<br>";
 
-      	LOG.info("after handle two: "+result);
+    	result=handleListResult(result);
+       	LOG.info("after handle two: "+result);
 
 		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
 	}
+
+ 	private String handleListResult(String str){
+ 		StringBuffer sb = new StringBuffer();
+ 		Pattern compile = Pattern.compile(";(.*?)<br>");
+		Matcher matcher = compile.matcher(str);
+
+		while (matcher.find()) {
+			String group = matcher.group(1);
+			long sstime = Long.valueOf(group);
+			Date date = new Date(sstime);
+ 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  			matcher.appendReplacement(sb, ":" + sdf.format(date)+"<br>");
+		}
+
+		matcher.appendTail(sb);
+
+		return sb.toString();
+ 	}
 
 
 	private GenericObjectPoolImpl getObjectPoolImpl() {
