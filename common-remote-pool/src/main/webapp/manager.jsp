@@ -13,7 +13,7 @@
 
 <script>
 $(function(){
-$("#drain").easyconfirm({locale: {title: 'Are you sure?', button: ['No','Yes']}});
+$("#drain").easyconfirm({locale: {title: 'Are you sure?',  width: '110', button: ['No','Yes']}});
 });
 </script>
 
