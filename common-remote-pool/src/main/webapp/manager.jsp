@@ -13,8 +13,7 @@
 
 <script>
 $(function(){
-$("#drain").easyconfirm({locale: { minHeight : 100, // default 120
-    maxHeight : 250 , title: 'Are you sure this operation?', text: 'if continue,all resource will be cleared!',button: ['NO','YES']}});
+$("#drain").easyconfirm({locale: {title: 'Are you sure this operation?', text: 'if continue,all resource will be cleared!',button: ['NO','YES']}});
 });
 </script>
 
