@@ -51,7 +51,7 @@ button:active {
 }
 
 input[type='text'] {
-	background-color: aquamarine;
-	font-size: 13px;
-	line-height: 20px;
+
+border-color: #ffffff #ffffff #ffffff #ffffff;
+
 }
