@@ -50,6 +50,8 @@ public class DefaultResourcePoolService {
     	result=result.replace("[", "");
     	result=result.replace("]", "");
 
+    	result+="<br>";
+
       	LOG.info("after handle two: "+result);
 
 		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
