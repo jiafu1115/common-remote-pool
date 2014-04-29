@@ -163,7 +163,7 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 
 
 <i>
-<xmp>       <dependency>
+<xmp>        <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson-provider</artifactId>
             <version>2.3.1.GA</version>
@@ -178,8 +178,7 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 <p>
 or you can use the server-test-toolkit dependence which contain it:
 <i>
- <xmp>
-        <dependency>
+ <xmp>        <dependency>
             <groupId>com.googlecode.server-test-toolkit</groupId>
             <artifactId>server-test-toolkit</artifactId>
             <version>2.2.8</version>
