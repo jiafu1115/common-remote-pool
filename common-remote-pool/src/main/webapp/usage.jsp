@@ -26,7 +26,7 @@ if(targetObj.style.display!="none"){
 
 <ul>
 
-   <li><b> http request style</b>
+   <li><b><A name="content">http request style</A> </b>
 <br>
 <br>
 <ul>
