@@ -176,7 +176,7 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object
 </xmp>
 </i>
 <p>
-or you can use the server-test-toolkit dependence which contain it:
+or you can use the server-test-toolkit dependence (version>=2.2.8)which contain it:
 <i>
  <xmp>        <dependency>
             <groupId>com.googlecode.server-test-toolkit</groupId>
