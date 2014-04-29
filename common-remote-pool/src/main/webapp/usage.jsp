@@ -152,7 +152,7 @@ if(targetObj.style.display!="none"){
 <li><b> client style </b></li>
 
 <br>
-The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly.
+The client's code amount is so small that you can copy the <a href="http://code.google.com/p/common-remote-pool/source/browse/common-remote-pool/src/main/java/com/googlecode/common/remote/pool/client/CommonRemotePoolClient.java">code</a> directly with pom.xml changed.
 <p>
 <pre>
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.CommonRemotePoolClient(String)
@@ -161,8 +161,7 @@ com.googlecode.common.remote.pool.client.CommonRemotePoolClient.returnObject(Obj
 com.googlecode.common.remote.pool.client.CommonRemotePoolClient.addObject(Object...)
 </pre>
 
-<p>
-Dependence:
+
 <i>
 <xmp>       <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -175,6 +174,18 @@ Dependence:
             <version>3.0.2.Final</version>
         </dependency>
 </xmp>
+</i>
+<p>
+or you can use the server-test-toolkit dependence which contain it:
+<i>
+ <xmp>
+        <dependency>
+            <groupId>com.googlecode.server-test-toolkit</groupId>
+            <artifactId>server-test-toolkit</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+</xmp>
+
 </i>
 
 </ul>
