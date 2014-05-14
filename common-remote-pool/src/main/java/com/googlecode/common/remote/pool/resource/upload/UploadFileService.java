@@ -68,7 +68,6 @@ public class UploadFileService {
             fos.flush();
             fos.close();
         } catch (IOException e) {
-            e.printStackTrace();
             return Response
                     .status(500)
                     .entity("[FAIL]: Target Path: " + completeFilePath).build();
