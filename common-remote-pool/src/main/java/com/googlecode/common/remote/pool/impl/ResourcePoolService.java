@@ -1,6 +1,8 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -43,13 +45,70 @@ public class ResourcePoolService {
 	@GET
 	@Path("borrow")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Object borrow() throws Exception {
+	public synchronized Object borrow() throws Exception {
 		Object borrowObject = getObjectPoolImpl().borrowObject();
 		if (borrowObject == null)
 			throw new NoResourceCanUsedException();
 
 		return borrowObject;
 	}
+
+	 @GET
+	 @Path("borrow")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public synchronized Object borrowWithCondition(@Form ResouceAddForm form) throws Exception {
+         int numIdle = getObjectPoolImpl().getNumIdle();
+         if(numIdle==0)
+             throw new NoResourceCanUsedException();
+
+	     String originalJsonContent = form.getJsonContent();
+	        if (originalJsonContent.isEmpty()) {
+	            throw new BadRequestException("content is empty");
+	        }
+	        String jsonContent = originalJsonContent.trim();
+	        LOG.info("jsonContent:" + jsonContent);
+	        List<Object> objectList=new ArrayList<Object>();
+	        try {
+	            if (jsonContent.startsWith("[")) {
+	                ObjectMapper objectMapper = new ObjectMapper();
+	                Object[] readValue = objectMapper.readValue(jsonContent,
+	                        Object[].class);
+	                for (Object object : readValue) {
+ 	                    objectList.add(object);
+ 	                }
+
+	            } else {
+	                ObjectMapper objectMapper = new ObjectMapper();
+	                Object object = objectMapper.readValue(jsonContent,
+	                        Object.class);
+                    objectList.add(object);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return Response.status(500).entity("FAIL:" + e.getMessage())
+	                    .build();
+	        }
+
+ 	        for (int i = 0; i < numIdle; i++) {
+	            Object borrowObject = getObjectPoolImpl().borrowObject();
+	            if (borrowObject == null)
+	                throw new NoResourceCanUsedException();
+	            else{
+	                for (Object object : objectList) {
+	                    LOG.info("object condition:" + object);
+	                    LOG.info("object borrowObject:" + object);
+
+	                    if(object.toString().equals(borrowObject.toString())){
+	                        return borrowObject;
+	                    }
+	                }
+
+	                getObjectPoolImpl().returnObject(borrowObject);
+	            }
+            }
+
+            throw new NoResourceCanUsedException();
+  	}
 
 	@GET
 	@Path("getFactory")
@@ -68,7 +127,7 @@ public class ResourcePoolService {
 	@POST
 	@Path("return")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void returnObject(Object object) throws Exception {
+	public synchronized void returnObject(Object object) throws Exception {
 		getObjectPoolImpl().returnObject(object);
 	}
 
@@ -82,7 +141,7 @@ public class ResourcePoolService {
 
 	@POST
 	@Path("add")
-	public Response addObject(@Form ResouceAddForm form) {
+	public synchronized Response addObject(@Form ResouceAddForm form) {
 		LOG.info("begin to add resource:");
 
 		String originalJsonContent = form.getJsonContent();
@@ -123,7 +182,7 @@ public class ResourcePoolService {
 	 */
 	@GET
 	@Path("active")
-	public Response getActiveNumber() throws Exception {
+	public synchronized Response getActiveNumber() throws Exception {
 		GenericObjectPoolImpl objectPoolImpl = getObjectPoolImpl();
 		int activeNumber = objectPoolImpl.getNumActive();
 
@@ -132,7 +191,7 @@ public class ResourcePoolService {
 
 	@GET
 	@Path("info")
-	public Response getPoolInfo() throws Exception {
+	public synchronized Response getPoolInfo() throws Exception {
 		GenericObjectPoolImpl objectPoolImpl = getObjectPoolImpl();
 		int activeNumber = objectPoolImpl.getNumActive();
 		int idleNumber=objectPoolImpl.getNumIdle();
@@ -143,7 +202,7 @@ public class ResourcePoolService {
 
 	@GET
 	@Path("idle")
-	public Response getIdleNumber() throws Exception {
+	public synchronized Response getIdleNumber() throws Exception {
 		int activeNumber = getObjectPoolImpl().getNumIdle();
  		return Response.ok(activeNumber, MediaType.TEXT_PLAIN_TYPE).build();
 	}
