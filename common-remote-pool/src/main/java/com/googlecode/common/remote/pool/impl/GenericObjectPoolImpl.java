@@ -29,6 +29,7 @@ public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 			try {
 				LOG.info("need reload GenericObjectPoolImpl");
 				INSTANCE = new GenericObjectPoolImpl();
+				INSTANCE.setLifo(false);
 			} catch (ClassNotFoundException e) {
 				throw new ResourceFactoryClassNoUploadException(
 						"no right resource factory class uploaded, the current enable class is: "
