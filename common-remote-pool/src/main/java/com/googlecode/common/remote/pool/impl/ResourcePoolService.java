@@ -53,15 +53,17 @@ public class ResourcePoolService {
 		return borrowObject;
 	}
 
-	 @GET
+	 @POST
 	 @Path("borrow")
-	 @Produces(MediaType.APPLICATION_JSON)
+ 	 @Produces(MediaType.APPLICATION_JSON)
 	 public synchronized Object borrowWithCondition(@Form ResouceAddForm form) throws Exception {
          int numIdle = getObjectPoolImpl().getNumIdle();
+         System.out.println(numIdle);
          if(numIdle==0)
              throw new NoResourceCanUsedException();
 
 	     String originalJsonContent = form.getJsonContent();
+	     System.out.println(originalJsonContent);
 	        if (originalJsonContent.isEmpty()) {
 	            throw new BadRequestException("content is empty");
 	        }
