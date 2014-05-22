@@ -98,7 +98,7 @@ public class ResourcePoolService {
 	            else{
 	                for (Object object : objectList) {
 	                    LOG.info("object condition:" + object);
-	                    LOG.info("object borrowObject:" + object);
+	                    LOG.info("object borrowObject:" + borrowObject);
 
 	                    if(object.toString().equals(borrowObject.toString())){
 	                        return borrowObject;
