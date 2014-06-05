@@ -1,26 +1,20 @@
 package com.googlecode.common.remote.pool.resource;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.EmptyStackException;
-import java.util.List;
 import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
-import org.codehaus.jackson.map.ObjectMapper;
 
 public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
-	public static List<Object> backupList = new ArrayList<Object>();
+	//public static List<Object> backupList = new ArrayList<Object>();
  	private static Stack<Object> stack = new Stack<Object>();
 
-	private static final String CONFIG_FILE = "resource.txt";
+//	private static final String CONFIG_FILE = "resource.txt";
 
 
 	static{
-
+/**
 		BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(DefaultResourceFactory.class
@@ -45,7 +39,7 @@ public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 					e.printStackTrace();
 				}
 		}
-
+*/
 	}
 
 	public DefaultResourceFactory(){
