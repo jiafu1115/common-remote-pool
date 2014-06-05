@@ -1,6 +1,5 @@
 package com.googlecode.common.remote.pool.impl;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import org.jboss.resteasy.annotations.Form;
 import org.jboss.resteasy.spi.BadRequestException;
 
 import com.googlecode.common.remote.pool.exception.NoResourceCanUsedException;
+import com.googlecode.common.remote.pool.util.PoolUtil;
 
 @Path("object")
 public class ResourcePoolService {
@@ -133,14 +133,6 @@ public class ResourcePoolService {
 		getObjectPoolImpl().returnObject(object);
 	}
 
-	public void returnObjectWithoutActiveNumberChanage(Object object) throws Exception {
-		GenericObjectPoolImpl objectPoolImpl = getObjectPoolImpl();
-		Class<?> superclass = objectPoolImpl.getClass().getSuperclass();
-		Method method = superclass.getDeclaredMethod("addObjectToPool",Object.class, boolean.class);
-		method.setAccessible(true);
-		method.invoke(objectPoolImpl,object, false);
-	}
-
 	@POST
 	@Path("add")
 	public synchronized Response addObject(@Form ResouceAddForm form) {
@@ -158,14 +150,14 @@ public class ResourcePoolService {
 				Object[] readValue = objectMapper.readValue(jsonContent,
 						Object[].class);
 				for (Object object : readValue) {
-					returnObjectWithoutActiveNumberChanage(object);
+					PoolUtil.returnObjectWithoutActiveNumberChanage(object);
 				}
 
 			} else {
 				ObjectMapper objectMapper = new ObjectMapper();
 				Object object = objectMapper.readValue(jsonContent,
 						Object.class);
-				returnObjectWithoutActiveNumberChanage(object);
+				PoolUtil.returnObjectWithoutActiveNumberChanage(object);
  			}
 			return Response.status(200).entity("OK").build();
 		} catch (Exception e) {
@@ -209,7 +201,7 @@ public class ResourcePoolService {
  		return Response.ok(activeNumber, MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
-	private GenericObjectPoolImpl getObjectPoolImpl() {
+	private static GenericObjectPoolImpl getObjectPoolImpl() {
 		return GenericObjectPoolImpl.getInstance();
 	}
 }
