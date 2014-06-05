@@ -3,7 +3,9 @@ package com.googlecode.common.remote.pool.resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
@@ -12,7 +14,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
 	private static Stack<Object> stack = new Stack<Object>();
-	private static Stack<Object> backupStack = new Stack<Object>();
+	private static List<Object> backupList = new ArrayList<Object>();
 
 	private static final String CONFIG_FILE = "resource.txt";
 
@@ -31,7 +33,7 @@ public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 						Object.class);
 
 				stack.push(object);
-				backupStack.push(object);
+				backupList.add(object);
    			}
 		} catch (Exception e) {
 			e.printStackTrace();
