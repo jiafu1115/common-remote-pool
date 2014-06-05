@@ -11,6 +11,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.log4j.Logger;
 
 import com.googlecode.common.remote.pool.resource.DefaultResourceFactory;
@@ -35,6 +38,14 @@ public class DefaultResourcePoolService {
 			INSTANCE = new DefaultResourcePoolService();
 			return INSTANCE;
 		}
+	}
+
+ 	@GET
+	@Path("listAll")
+	public Response listAll() throws Exception {
+ 		JSONArray arry=JSONArray.fromObject(ResourcePoolService.ADDED_OBJECTS);
+ 		JSONObject fromObject = JSONObject.fromObject(arry);
+ 		return Response.ok(fromObject.toString(), MediaType.APPLICATION_JSON).build();
 	}
 
  	@GET
