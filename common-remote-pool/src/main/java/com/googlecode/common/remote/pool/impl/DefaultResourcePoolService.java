@@ -12,11 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
-
-import com.googlecode.common.remote.pool.resource.DefaultResourceFactory;
 
 @Path("object")
 public class DefaultResourcePoolService {
@@ -41,7 +38,7 @@ public class DefaultResourcePoolService {
 	}
 
  	@GET
-	@Path("listAll")
+	@Path("listAdd")
 	public Response listAll() throws Exception {
  		JSONArray arry=JSONArray.fromObject(ResourcePoolService.ADDED_OBJECTS);
   		return Response.ok(arry.toString(), MediaType.APPLICATION_JSON).build();
@@ -75,11 +72,13 @@ public class DefaultResourcePoolService {
 		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
+ 	/**
 	@GET
 	@Path("listadded")
 	public Response listConfig() throws Exception {
  		return Response.ok(DefaultResourceFactory.backupList.toString(), MediaType.TEXT_PLAIN_TYPE).build();
 	}
+	*/
 
  	private String handleListResult(String str){
  		StringBuffer sb = new StringBuffer();
