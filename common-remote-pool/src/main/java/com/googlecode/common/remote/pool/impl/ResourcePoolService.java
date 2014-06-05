@@ -126,6 +126,7 @@ public class ResourcePoolService {
 	@Path("drain")
 	public Response drain() throws Exception {
         GenericObjectPoolImpl.resetPoolImpl();
+        ADDED_OBJECTS.clear();
         return Response.status(200).entity("OK").build();
 	}
 
