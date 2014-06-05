@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
+import com.googlecode.common.remote.pool.resource.DefaultResourceFactory;
+
 @Path("object")
 public class DefaultResourcePoolService {
 
@@ -60,6 +62,12 @@ public class DefaultResourcePoolService {
        	LOG.info("after handle two: "+result);
 
 		return Response.ok(result, MediaType.TEXT_PLAIN_TYPE).build();
+	}
+
+	@GET
+	@Path("listconfig")
+	public Response listConfig() throws Exception {
+ 		return Response.ok(DefaultResourceFactory.backupList.toString(), MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
  	private String handleListResult(String str){
