@@ -41,7 +41,10 @@ public class DefaultResourcePoolService {
 	@Path("listAdd")
 	public Response listAll() throws Exception {
  		JSONArray arry=JSONArray.fromObject(ResourcePoolService.ADDED_OBJECTS);
-  		return Response.ok(arry.toString(), MediaType.APPLICATION_JSON).build();
+  		String string = arry.toString();
+  		if(string.equalsIgnoreCase("[]"))
+  			string="no any resource be added";
+		return Response.ok(string, MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
  	@GET
