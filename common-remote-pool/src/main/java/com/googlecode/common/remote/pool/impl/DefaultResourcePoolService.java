@@ -44,8 +44,7 @@ public class DefaultResourcePoolService {
 	@Path("listAll")
 	public Response listAll() throws Exception {
  		JSONArray arry=JSONArray.fromObject(ResourcePoolService.ADDED_OBJECTS);
- 		JSONObject fromObject = JSONObject.fromObject(arry);
- 		return Response.ok(fromObject.toString(), MediaType.APPLICATION_JSON).build();
+  		return Response.ok(arry.toString(), MediaType.APPLICATION_JSON).build();
 	}
 
  	@GET
@@ -67,6 +66,7 @@ public class DefaultResourcePoolService {
     	result=result.replace("[", "");
     	result=result.replace("]", "");
 
+
     	result+="<br>";
 
     	result=handleListResult(result);
@@ -76,7 +76,7 @@ public class DefaultResourcePoolService {
 	}
 
 	@GET
-	@Path("listconfig")
+	@Path("listadded")
 	public Response listConfig() throws Exception {
  		return Response.ok(DefaultResourceFactory.backupList.toString(), MediaType.TEXT_PLAIN_TYPE).build();
 	}
