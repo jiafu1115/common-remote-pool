@@ -24,8 +24,9 @@ import com.googlecode.common.remote.pool.util.PoolUtil;
 @Path("object")
 public class ResourcePoolService {
 
+	public final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
+
 	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
-	private final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
 
 	private static ResourcePoolService INSTANCE;
 
