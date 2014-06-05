@@ -1,13 +1,50 @@
 package com.googlecode.common.remote.pool.resource;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
 import org.apache.commons.pool.PoolableObjectFactory;
+import org.codehaus.jackson.map.ObjectMapper;
 
 public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
 	private static Stack<Object> stack = new Stack<Object>();
+	private static Stack<Object> backupStack = new Stack<Object>();
+
+	private static final String CONFIG_FILE = "resource.txt";
+
+
+	static{
+
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new InputStreamReader(DefaultResourceFactory.class
+					.getResourceAsStream(CONFIG_FILE)));
+
+			String json;
+			while ((json = bufferedReader.readLine()) != null) {
+ 				ObjectMapper objectMapper = new ObjectMapper();
+				Object object = objectMapper.readValue(json,
+						Object.class);
+
+				stack.push(object);
+				backupStack.push(object);
+   			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (bufferedReader != null)
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+
+	}
 
 	public DefaultResourceFactory(){
               //add only for demo.
