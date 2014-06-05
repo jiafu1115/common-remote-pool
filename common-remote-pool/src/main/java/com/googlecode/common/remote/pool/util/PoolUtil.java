@@ -13,7 +13,7 @@ public final class PoolUtil {
 	public static void returnObjectWithoutActiveNumberChanage(Object object) throws Exception {
 		GenericObjectPoolImpl objectPoolImpl = GenericObjectPoolImpl.getInstance();
 		Class<?> superclass = objectPoolImpl.getClass().getSuperclass();
-		System.err.println("add to pool"+object);
+		System.out.println("add to pool"+object);
 		Method method = superclass.getDeclaredMethod("addObjectToPool",Object.class, boolean.class);
 		method.setAccessible(true);
 		method.invoke(objectPoolImpl,object, false);
