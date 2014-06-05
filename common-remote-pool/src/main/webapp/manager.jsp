@@ -77,6 +77,26 @@ $(function(){
 });
 </script>
 
+<script>
+$(function(){
+    $("#listAdded").click(function(){
+        $.ajax({
+        type: "GET",
+        url: "service/object/listAdd",
+        success: function(data) {
+            $("#listAddedDiv").html(data);
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
+
+        return false;
+
+    });
+});
+</script>
+
 
 <script>
 $(document).ready(function(){
@@ -128,6 +148,14 @@ $(document).ready(function(){
 	<button id="listPool">list</button>
 	<p>
 	<div id="listPoolDiv"></div>
+
+<p>
+<hr>
+    <h3>Objects Added into Pool</h3>
+
+	<button id="listAdded">listAdd</button>
+	<p>
+	<div id="listAddedDiv"></div>
 
 <p>
 </body>
