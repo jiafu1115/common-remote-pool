@@ -13,8 +13,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 public class DefaultResourceFactory implements PoolableObjectFactory<Object> {
 
-	private static Stack<Object> stack = new Stack<Object>();
-	private static List<Object> backupList = new ArrayList<Object>();
+	public static List<Object> backupList = new ArrayList<Object>();
+ 	private static Stack<Object> stack = new Stack<Object>();
 
 	private static final String CONFIG_FILE = "resource.txt";
 
