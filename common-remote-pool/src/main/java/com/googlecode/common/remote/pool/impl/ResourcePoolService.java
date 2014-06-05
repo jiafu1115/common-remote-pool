@@ -1,7 +1,9 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,7 +25,7 @@ import com.googlecode.common.remote.pool.util.PoolUtil;
 public class ResourcePoolService {
 
 	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
-
+	private final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
 
 	private static ResourcePoolService INSTANCE;
 
@@ -137,8 +139,7 @@ public class ResourcePoolService {
 	@Path("add")
 	public synchronized Response addObject(@Form ResouceAddForm form) {
 		LOG.info("begin to add resource:");
-
-		String originalJsonContent = form.getJsonContent();
+ 		String originalJsonContent = form.getJsonContent();
 		if (originalJsonContent.isEmpty()) {
 			throw new BadRequestException("content is empty");
 		}
@@ -150,6 +151,7 @@ public class ResourcePoolService {
 				Object[] readValue = objectMapper.readValue(jsonContent,
 						Object[].class);
 				for (Object object : readValue) {
+					ADDED_OBJECTS.add(object);
 					PoolUtil.returnObjectWithoutActiveNumberChanage(object);
 				}
 
@@ -157,6 +159,7 @@ public class ResourcePoolService {
 				ObjectMapper objectMapper = new ObjectMapper();
 				Object object = objectMapper.readValue(jsonContent,
 						Object.class);
+				ADDED_OBJECTS.add(object);
 				PoolUtil.returnObjectWithoutActiveNumberChanage(object);
  			}
 			return Response.status(200).entity("OK").build();
