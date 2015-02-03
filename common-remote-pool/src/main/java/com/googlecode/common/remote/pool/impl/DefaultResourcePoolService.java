@@ -2,8 +2,12 @@ package com.googlecode.common.remote.pool.impl;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,7 +56,7 @@ public class DefaultResourcePoolService {
  	@GET
 	@Path("log")
 	public Response log() throws Exception {
- 		List<BorrowInfo> borrowInfoList = ResourcePoolService.getBorrowInfoList();
+ 		List<BorrowInfo> borrowInfoList = new ArrayList<BorrowInfo>(ResourcePoolService.getBorrowInfoList());
  		StringBuffer stringBuffer=new StringBuffer();
  		for (BorrowInfo borrowInfo : borrowInfoList) {
  			stringBuffer.append(borrowInfo.toString());
@@ -60,6 +64,43 @@ public class DefaultResourcePoolService {
  		}
 		return Response.ok(stringBuffer, MediaType.TEXT_PLAIN_TYPE).build();
 	}
+ 	
+ 	
+ 	
+ 	@GET
+	@Path("logsort")
+	public Response logsort() throws Exception {
+ 		List<BorrowInfo> borrowInfoList = new ArrayList<BorrowInfo>(ResourcePoolService.getBorrowInfoList());
+ 		Map<Object,List<BorrowInfo>> map=new HashMap<Object,List<BorrowInfo>>();
+ 		for (BorrowInfo borrowInfo : borrowInfoList) {
+ 			List<BorrowInfo> list = map.get(borrowInfo.getObject());
+			if(list==null){
+ 				map.put(borrowInfo.getObject(), new ArrayList<BorrowInfo>());
+ 			}else{
+ 				list.add(borrowInfo);
+ 			}
+ 		}
+ 		
+ 		StringBuffer stringBuffer=new StringBuffer();
+
+ 		Set<Object> keySet = map.keySet();
+ 		for (Object object : keySet) {
+ 			stringBuffer.append("------------------------------------------");
+ 			stringBuffer.append("<br>");
+  			stringBuffer.append(object+":");
+ 			stringBuffer.append("<br>");
+ 			
+ 			List<BorrowInfo> list = map.get(object);
+ 			for (BorrowInfo borrowInfo : list) {
+ 	 			stringBuffer.append("      "+borrowInfo.toShortString());
+ 	 			stringBuffer.append("<br>");
+  			}
+  
+		}
+ 		  
+		return Response.ok(stringBuffer, MediaType.TEXT_PLAIN_TYPE).build();
+	}
+ 	
  	
 	@GET
 	@Path("clearlog")
