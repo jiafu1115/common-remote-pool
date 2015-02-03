@@ -75,8 +75,10 @@ public class DefaultResourcePoolService {
  		for (BorrowInfo borrowInfo : borrowInfoList) {
  			List<BorrowInfo> list = map.get(borrowInfo.getObject());
 			if(list==null){
- 				map.put(borrowInfo.getObject(), new ArrayList<BorrowInfo>());
- 			}else{
+ 				ArrayList<BorrowInfo> value = new ArrayList<BorrowInfo>();
+ 				value.add(borrowInfo);
+				map.put(borrowInfo.getObject(), value);
+  			}else{
  				list.add(borrowInfo);
  			}
  		}
@@ -95,6 +97,9 @@ public class DefaultResourcePoolService {
  	 			stringBuffer.append("      "+borrowInfo.toShortString());
  	 			stringBuffer.append("<br>");
   			}
+ 			
+ 			stringBuffer.append("<br>");
+
   
 		}
  		  
