@@ -62,7 +62,7 @@ public class DefaultResourcePoolService {
 	}
  	
 	@GET
-	@Path("clear")
+	@Path("clearlog")
 	public Response clearlog() throws Exception {
 		ResourcePoolService.getBorrowInfoList().clear();
 		return Response.ok("OK", MediaType.TEXT_PLAIN_TYPE).build();

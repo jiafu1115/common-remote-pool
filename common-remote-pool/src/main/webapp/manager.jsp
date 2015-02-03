@@ -18,6 +18,12 @@ $("#drain").easyconfirm({locale: {title: 'Are you sure?',  width: '110', button:
 
 <script>
 $(function(){
+$("#clearlog").easyconfirm({locale: {title: 'Are you sure?',  width: '110', button: ['No','Yes']}});
+});
+</script>
+
+<script>
+$(function(){
     $("#addForm").submit(function(){
         $.ajax({
         type: "POST",
@@ -127,6 +133,16 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
+$(document).ready(function(){
+  $("#clearlog").click(function(){
+      $.get("service/object/clearlog",function(data,status){
+          alert(data);
+     });
+  });
+});
+</script>
+
 <body>
 	<h2>Resource Manager</h2>
 <p>
@@ -184,6 +200,11 @@ $(document).ready(function(){
 	<p>
 	<div id="logedDiv"></div>
 
+<p>
+<hr>
+    <h3>Clearup Operation History</h3>
+
+    <button id="clearlog" >clear</button>
 <p>
 </body>
 </html>
