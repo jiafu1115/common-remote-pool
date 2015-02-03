@@ -60,6 +60,13 @@ public class DefaultResourcePoolService {
  		}
 		return Response.ok(stringBuffer, MediaType.TEXT_PLAIN_TYPE).build();
 	}
+ 	
+	@GET
+	@Path("clear")
+	public Response clearlog() throws Exception {
+		ResourcePoolService.getBorrowInfoList().clear();
+		return Response.ok("OK", MediaType.TEXT_PLAIN_TYPE).build();
+ 	}
 
  	@GET
 	@Path("list")
