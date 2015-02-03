@@ -113,7 +113,7 @@ public class CommonRemotePoolClient {
     }
 
     public <T> boolean addObject(Object... objects) {
-         ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyClient client = new ResteasyClientBuilder().build();
         try {
         	for (Object object : objects) {
                 ResteasyWebTarget target = client.target(url + "service/object/add");
