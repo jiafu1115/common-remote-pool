@@ -22,7 +22,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
  */
 public class CommonRemotePoolClient {
 
-    /**
+    private static final String DEFAULT_BORROWER_NAME = "anonymous";
+	/**
      * http://10.224.38.166:8080/common-remote-pool/
      */
     private String url;
@@ -43,10 +44,19 @@ public class CommonRemotePoolClient {
      * @return return null if now object can be borrowed.
      */
     public <T> T borrowObject(Class<T> classType) {
+    	return   borrowObject(classType, DEFAULT_BORROWER_NAME); 
+
+    }
+     
+    /**
+     * @param classType
+     * @return return null if now object can be borrowed.
+     */
+    public <T> T borrowObject(Class<T> classType, String borrowerName) {
         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
             ResteasyWebTarget target = client.target(url + "service/object/borrow");
-            Response response = target.request().get();
+            Response response = target.request().header("borrower", borrowerName).get();
             if (response.getStatus() == 404)
                 return null;
 
@@ -56,6 +66,11 @@ public class CommonRemotePoolClient {
             client.close();
         }
 
+    }
+    
+    
+    public <T> T borrowObject(Class<T> classType, List<T> scopeList) {
+    	 return borrowObject(classType, scopeList, DEFAULT_BORROWER_NAME) ;
     }
 
     /**
@@ -63,12 +78,12 @@ public class CommonRemotePoolClient {
      * @param scopeList  only return the object in scope.
      * @return return null if now object can be borrowed.
      */
-    public <T> T borrowObject(Class<T> classType, List<T> scopeList) {
+    public <T> T borrowObject(Class<T> classType, List<T> scopeList, String borrowerName) {
         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
             ResteasyWebTarget target = client.target(url + "service/object/borrow");
             String string = JSONArray.fromObject(scopeList).toString();
-            Response response =  target.request().post(Entity.form(new Form("jsonContent", string)));
+            Response response =  target.request().header("borrower", borrowerName).post(Entity.form(new Form("jsonContent", string)));
 
             if (response.getStatus() == 404)
                 return null;
@@ -80,12 +95,16 @@ public class CommonRemotePoolClient {
         }
 
     }
-
+    
     public <T> boolean returnObject(Object object) {
+    	return returnObject( object, DEFAULT_BORROWER_NAME);
+    }
+
+    public <T> boolean returnObject(Object object,String borrowerName) {
         ResteasyClient client = new ResteasyClientBuilder().build();
         try {
             ResteasyWebTarget target = client.target(url + "service/object/return");
-            Response response = target.request().post(Entity.json(object));
+            Response response = target.request().header("borrower", borrowerName).post(Entity.json(object));
 
             return response.getStatus() <= 204 && response.getStatus()>=200;
          } finally {
