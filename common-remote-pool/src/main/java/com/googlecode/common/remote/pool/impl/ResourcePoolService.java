@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -34,6 +36,23 @@ public class ResourcePoolService {
 
 	private static ResourcePoolService INSTANCE;
 	
+	
+	public ResourcePoolService(){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				for(BorrowInfo borrowInfo: BORROW_INFO_LIST){
+					Date currentDate = new Date();
+					if((currentDate.getTime()-borrowInfo.getDate().getTime())>3L * 24 * 60 * 60 * 1000)
+						BORROW_INFO_LIST.remove(borrowInfo);
+				}
+ 				
+			}
+		}, 0, 4L*24*60*60*1000);
+		
+	}
 
 	public static List<BorrowInfo> getBorrowInfoList() {
 		return BORROW_INFO_LIST;
