@@ -3,6 +3,7 @@ package com.googlecode.common.remote.pool.impl;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +46,19 @@ public class DefaultResourcePoolService {
   		if(string.equalsIgnoreCase("[]"))
   			string="no any resource be added";
 		return Response.ok(string, MediaType.TEXT_PLAIN_TYPE).build();
+	}
+ 	
+ 	
+ 	@GET
+	@Path("log")
+	public Response log() throws Exception {
+ 		List<BorrowInfo> borrowInfoList = ResourcePoolService.getBorrowInfoList();
+ 		StringBuffer stringBuffer=new StringBuffer();
+ 		for (BorrowInfo borrowInfo : borrowInfoList) {
+ 			stringBuffer.append(borrowInfo.toString());
+ 			stringBuffer.append("<br>");
+ 		}
+		return Response.ok(stringBuffer, MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
  	@GET

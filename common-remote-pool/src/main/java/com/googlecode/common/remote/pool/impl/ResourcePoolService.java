@@ -1,12 +1,14 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,8 +29,15 @@ public class ResourcePoolService {
 	public final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
 
 	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
+	
+	private final static List<BorrowInfo> BORROW_INFO_LIST=new ArrayList<BorrowInfo>();
 
 	private static ResourcePoolService INSTANCE;
+	
+
+	public static List<BorrowInfo> getBorrowInfoList() {
+		return BORROW_INFO_LIST;
+	}
 
 	public static ResourcePoolService getInstance() {
 		if (INSTANCE != null) {
@@ -48,25 +57,34 @@ public class ResourcePoolService {
 	@GET
 	@Path("borrow")
 	@Produces(MediaType.APPLICATION_JSON)
-	public synchronized Object borrow() throws Exception {
+	public synchronized Object borrow(@HeaderParam("borrower") String borrowerName) throws Exception {
 		Object borrowObject = getObjectPoolImpl().borrowObject();
 		if (borrowObject == null)
 			throw new NoResourceCanUsedException();
 
+		borrowerName = getBorrowName(borrowerName);
+    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), borrowObject.toString()));
+
 		return borrowObject;
+	}
+
+	private String getBorrowName(String borrowerName) {
+		if(borrowerName==null)
+			borrowerName="anonymous";
+		return borrowerName;
 	}
 
 	 @POST
 	 @Path("borrow")
  	 @Produces(MediaType.APPLICATION_JSON)
-	 public synchronized Object borrowWithCondition(@Form ResouceAddForm form) throws Exception {
+	 public synchronized Object borrowWithCondition(@Form ResouceAddForm form, @HeaderParam("borrower") String borrowerName) throws Exception {
          int numIdle = getObjectPoolImpl().getNumIdle();
-         System.out.println(numIdle);
+         LOG.info("object idle total number: "+numIdle);
          if(numIdle==0)
              throw new NoResourceCanUsedException();
 
 	     String originalJsonContent = form.getJsonContent();
-	     System.out.println(originalJsonContent);
+	     LOG.info(originalJsonContent);
 	        if (originalJsonContent.isEmpty()) {
 	            throw new BadRequestException("content is empty");
 	        }
@@ -104,6 +122,9 @@ public class ResourcePoolService {
 	                    LOG.info("object borrowObject:" + borrowObject);
 
 	                    if(object.toString().equals(borrowObject.toString())){
+	                    	
+	                		borrowerName = getBorrowName(borrowerName);
+	                    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), object.toString()));
 	                        return borrowObject;
 	                    }
 	                }
@@ -133,8 +154,10 @@ public class ResourcePoolService {
 	@POST
 	@Path("return")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public synchronized void returnObject(Object object) throws Exception {
-		getObjectPoolImpl().returnObject(object);
+	public synchronized void returnObject(Object object,@HeaderParam("borrower") String borrowerName) throws Exception {
+		borrowerName = getBorrowName(borrowerName);
+    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()));
+ 		getObjectPoolImpl().returnObject(object);
 	}
 
 	@POST
