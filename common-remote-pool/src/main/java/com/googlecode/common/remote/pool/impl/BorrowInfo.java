@@ -43,8 +43,13 @@ public class BorrowInfo {
 	}
 	@Override
 	public String toString() {
-		return  borrower + "  "
-				+ borrowType + "  " + object + " at " + date + "";
+		return  date+" "+borrower + "  "
+				+ borrowType + "  " + object;
+	}
+	
+ 	public String toShortString() {
+		return  date+" "+borrower + "  "
+				+ borrowType ;
 	}
 	
  
