@@ -97,6 +97,25 @@ $(function(){
 });
 </script>
 
+<script>
+$(function(){
+    $("#loged").click(function(){
+        $.ajax({
+        type: "GET",
+        url: "service/object/log",
+        success: function(data) {
+            $("#logedDiv").html(data);
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
+
+        return false;
+
+    });
+});
+</script>
 
 <script>
 $(document).ready(function(){
@@ -151,11 +170,19 @@ $(document).ready(function(){
 
 <p>
 <hr>
-    <h3>Objects Added into Pool</h3>
+    <h3>Objects Added Into Pool</h3>
 
 	<button id="listAdded">listAdd</button>
 	<p>
 	<div id="listAddedDiv"></div>
+
+<p>
+<hr>
+    <h3>View Operation History</h3>
+
+	<button id="loged">log</button>
+	<p>
+	<div id="logedDiv"></div>
 
 <p>
 </body>
