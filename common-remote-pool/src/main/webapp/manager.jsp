@@ -124,6 +124,26 @@ $(function(){
 </script>
 
 <script>
+$(function(){
+    $("#logedSort").click(function(){
+        $.ajax({
+        type: "GET",
+        url: "service/object/logsort",
+        success: function(data) {
+            $("#logedSortDiv").html(data);
+        },
+        error: function() {
+	 		alert("FAIL");
+    }
+        });
+
+        return false;
+
+    });
+});
+</script>
+
+<script>
 $(document).ready(function(){
   $("#drain").click(function(){
       $.get("service/object/drain",function(data,status){
@@ -202,9 +222,18 @@ $(document).ready(function(){
 
 <p>
 <hr>
+    <h3>View Operation History Sorted</h3>
+
+	<button id="logedSort">log</button>
+	<p>
+	<div id="logedSortDiv"></div>
+
+<p>
+<hr>
     <h3>Clearup Operation History</h3>
 
     <button id="clearlog" >clear</button>
 <p>
+
 </body>
 </html>
