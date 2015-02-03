@@ -1,6 +1,7 @@
 package com.googlecode.common.remote.pool.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ResourcePoolService {
 
 	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
 	
-	private final static List<BorrowInfo> BORROW_INFO_LIST=new ArrayList<BorrowInfo>();
+	private final static List<BorrowInfo> BORROW_INFO_LIST=Collections.synchronizedList(new ArrayList<BorrowInfo>());
 
 	private static ResourcePoolService INSTANCE;
 	
