@@ -69,8 +69,19 @@ public class DefaultResourcePoolService {
  	
  	@GET
 	@Path("logsort")
-	public Response logsort() throws Exception {
- 		List<BorrowInfo> borrowInfoList = new ArrayList<BorrowInfo>(ResourcePoolService.getBorrowInfoList());
+	public Response logsortByTimeIncrease() throws Exception {
+ 		return logSorted(true);
+	}
+ 	
+ 	
+ 	@GET
+	@Path("logsortDecrease")
+	public Response logsortByTimeDecrease() throws Exception {
+ 		return logSorted(false);
+	}
+
+	private Response logSorted(boolean isTimeIncreasing) {
+		List<BorrowInfo> borrowInfoList = new ArrayList<BorrowInfo>(ResourcePoolService.getBorrowInfoList());
  		Map<Object,List<BorrowInfo>> map=new HashMap<Object,List<BorrowInfo>>();
  		for (BorrowInfo borrowInfo : borrowInfoList) {
  			List<BorrowInfo> list = map.get(borrowInfo.getObject());
@@ -99,10 +110,22 @@ public class DefaultResourcePoolService {
    			}
  			stringBuffer.append("<br>");
  			
- 			for (BorrowInfo borrowInfo : list) {
- 	 			stringBuffer.append("      "+borrowInfo.toShortString());
- 	 			stringBuffer.append("<br>");
-  			}
+ 			if(isTimeIncreasing)
+	 			for (BorrowInfo borrowInfo : list) {
+	 	 			stringBuffer.append("      "+borrowInfo.toShortString());
+	 	 			stringBuffer.append("<br>");
+	  			}
+ 			else{
+ 				for (int i = list.size()-1; i >=0 ; i--) {
+ 	 	 			String str = "      "+list.get(i).toShortString();
+  					if(i>=1){
+ 						if(list.get(i).getBorrowType().equals(list.get(i-1)))
+ 							str="<font  color=\"red\">"+str+":</font>";
+ 					}
+					stringBuffer.append(str);
+	 	 			stringBuffer.append("<br>");	
+				}
+ 			}
  			
  			stringBuffer.append("<br>");
 
