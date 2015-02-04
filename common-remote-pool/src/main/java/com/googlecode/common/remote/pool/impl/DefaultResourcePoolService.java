@@ -69,16 +69,10 @@ public class DefaultResourcePoolService {
  	
  	@GET
 	@Path("logsort")
-	public Response logsortByTimeIncrease() throws Exception {
- 		return logSorted(true);
-	}
- 	
- 	
- 	@GET
-	@Path("logsortDecrease")
 	public Response logsortByTimeDecrease() throws Exception {
  		return logSorted(false);
 	}
+ 
 
 	private Response logSorted(boolean isTimeIncreasing) {
 		List<BorrowInfo> borrowInfoList = new ArrayList<BorrowInfo>(ResourcePoolService.getBorrowInfoList());
