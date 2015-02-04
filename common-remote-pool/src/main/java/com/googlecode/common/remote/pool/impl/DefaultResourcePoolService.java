@@ -113,7 +113,7 @@ public class DefaultResourcePoolService {
  				for (int i = list.size()-1; i >=0 ; i--) {
  	 	 			String str = "      "+list.get(i).toShortString();
   					if(i>=1){
- 						if(list.get(i).getBorrowType().equals(list.get(i-1)))
+ 						if(list.get(i).getBorrowType().equals(list.get(i-1).getBorrowType()))
  							str="<font  color=\"red\">"+str+":</font>";
  					}
 					stringBuffer.append(str);
