@@ -230,7 +230,7 @@ $(document).ready(function(){
 
 <p>
 <hr>
-    <h3>Clearup Operation History</h3>
+    <h3>Clean Operation History</h3>
 
     <button id="clearlog" >clear</button>
 <p>
