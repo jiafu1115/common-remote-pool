@@ -222,7 +222,7 @@ $(document).ready(function(){
 
 <p>
 <hr>
-    <h3>View Operation History Sorted</h3>
+    <h3>View Resources Usage</h3>
 
 	<button id="logedSort">log</button>
 	<p>
