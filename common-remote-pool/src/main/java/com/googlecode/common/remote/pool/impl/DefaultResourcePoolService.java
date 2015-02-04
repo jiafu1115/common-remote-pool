@@ -88,11 +88,17 @@ public class DefaultResourcePoolService {
  		Set<Object> keySet = map.keySet();
  		for (Object object : keySet) {
  			stringBuffer.append("------------------------------------------");
- 			stringBuffer.append("<br>");
-  			stringBuffer.append(object+":");
+ 			
  			stringBuffer.append("<br>");
  			
  			List<BorrowInfo> list = map.get(object);
+ 			if(list.size()!=0&&list.get(list.size()-1).getBorrowType().equals(OperationType.BORROW)){
+  				stringBuffer.append("<font color=\"red\">"+object+"</font>");
+   			}else{
+  				stringBuffer.append("<font color=\"green\">"+object+"</font>");
+   			}
+ 			stringBuffer.append("<br>");
+ 			
  			for (BorrowInfo borrowInfo : list) {
  	 			stringBuffer.append("      "+borrowInfo.toShortString());
  	 			stringBuffer.append("<br>");
