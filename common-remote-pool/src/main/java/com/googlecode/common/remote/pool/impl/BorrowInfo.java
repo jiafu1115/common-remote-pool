@@ -48,7 +48,7 @@ public class BorrowInfo {
 	}
 	
  	public String toShortString() {
-		return  date+" "+borrower + "  "
+		return  date+" ["+borrower + "]  "
 				+ borrowType ;
 	}
 	

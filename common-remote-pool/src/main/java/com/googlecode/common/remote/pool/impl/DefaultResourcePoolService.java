@@ -93,9 +93,9 @@ public class DefaultResourcePoolService {
  			
  			List<BorrowInfo> list = map.get(object);
  			if(list.size()!=0&&list.get(list.size()-1).getBorrowType().equals(OperationType.BORROW)){
-  				stringBuffer.append("<font color=\"red\">"+object+"</font>");
+  				stringBuffer.append("<b><font  color=\"red\">"+object+":</font></b>");
    			}else{
-  				stringBuffer.append("<font color=\"green\">"+object+"</font>");
+  				stringBuffer.append("<b><font  color=\"green\">"+object+":</font></b>");
    			}
  			stringBuffer.append("<br>");
  			
