@@ -1,266 +1,93 @@
 package com.googlecode.common.remote.pool.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.io.InputStream;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.pool.PoolableObjectFactory;
+import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.jboss.resteasy.annotations.Form;
-import org.jboss.resteasy.spi.BadRequestException;
 
-import com.googlecode.common.remote.pool.exception.NoResourceCanUsedException;
-import com.googlecode.common.remote.pool.util.PoolUtil;
+import com.googlecode.common.remote.pool.exception.ResourceFactoryClassNoUploadException;
 
-@Path("object")
-public class ResourcePoolService {
+public class GenericObjectPoolImpl extends GenericObjectPool<Object> {
 
-	public final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
-	
-	public final static Set<String> IN_POOLS_OBJECTS=new HashSet<String>();
- 
-	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
-	
-	private final static List<BorrowInfo> BORROW_INFO_LIST=Collections.synchronizedList(new ArrayList<BorrowInfo>());
+	private static final String DEFAULT_RESOURCE_FACTORY = "com.googlecode.common.remote.pool.resource.ResourceFactory";
+	private static String classForResourceFactory = DEFAULT_RESOURCE_FACTORY;
+	private static final Logger LOG = Logger.getLogger(GenericObjectPoolImpl.class);
 
-	private static ResourcePoolService INSTANCE;
-	
-	
-	public ResourcePoolService(){
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				for(BorrowInfo borrowInfo: BORROW_INFO_LIST){
-					Date currentDate = new Date();
-					if((currentDate.getTime()-borrowInfo.getDate().getTime())>3L * 24 * 60 * 60 * 1000)
-						BORROW_INFO_LIST.remove(borrowInfo);
-				}
- 				
-			}
-		}, 0, 4L*24*60*60*1000);
-		
-	}
+	private static GenericObjectPoolImpl INSTANCE;
 
-	public static List<BorrowInfo> getBorrowInfoList() {
-		return BORROW_INFO_LIST;
-	}
-
-	public static ResourcePoolService getInstance() {
-		if (INSTANCE != null) {
+	public static GenericObjectPoolImpl getInstance() {
+		if (INSTANCE != null)
 			return INSTANCE;
-		}
 
-		synchronized (ResourcePoolService.class) {
-			if (INSTANCE != null) {
+		synchronized (GenericObjectPoolImpl.class) {
+			if (INSTANCE != null)
 				return INSTANCE;
-			}
 
-			INSTANCE = new ResourcePoolService();
+			try {
+				LOG.info("need reload GenericObjectPoolImpl");
+				INSTANCE = new GenericObjectPoolImpl();
+				INSTANCE.setWhenExhaustedAction(WHEN_EXHAUSTED_FAIL);
+				INSTANCE.setLifo(false);
+			} catch (ClassNotFoundException e) {
+				throw new ResourceFactoryClassNoUploadException(
+						"no right resource factory class uploaded, the current enable class is: "
+								+ classForResourceFactory, e);
+			} catch (Exception e) {
+				throw new RuntimeException(e.getMessage(), e);
+			}
 			return INSTANCE;
 		}
+
 	}
 
-	@GET
-	@Path("borrow")
-	@Produces(MediaType.APPLICATION_JSON)
-	public synchronized Object borrow(@HeaderParam("borrower") String borrowerName) throws Exception {
-		Object borrowObject = getObjectPoolImpl().borrowObject();
-		if (borrowObject == null)
-			throw new NoResourceCanUsedException();
-
-		borrowerName = getBorrowName(borrowerName);
-    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), borrowObject.toString()));
-    	IN_POOLS_OBJECTS.remove(borrowObject.toString());
-
-		return borrowObject;
+	private GenericObjectPoolImpl() throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
+		super(getFactoryInstance());
+		this.setTestOnBorrow(true);
 	}
 
-	private String getBorrowName(String borrowerName) {
-		if(borrowerName==null)
-			borrowerName="anonymous";
-		return borrowerName;
-	}
-
-	 @POST
-	 @Path("borrow")
- 	 @Produces(MediaType.APPLICATION_JSON)
-	 public synchronized Object borrowWithCondition(@Form ResouceAddForm form, @HeaderParam("borrower") String borrowerName) throws Exception {
-         int numIdle = getObjectPoolImpl().getNumIdle();
-         LOG.info("object idle total number: "+numIdle);
-         if(numIdle==0)
-             throw new NoResourceCanUsedException();
-
-	     String originalJsonContent = form.getJsonContent();
-	     LOG.info(originalJsonContent);
-	        if (originalJsonContent.isEmpty()) {
-	            throw new BadRequestException("content is empty");
-	        }
-	        String jsonContent = originalJsonContent.trim();
-	        LOG.info("jsonContent:" + jsonContent);
-	        List<Object> objectList=new ArrayList<Object>();
-	        try {
-	            if (jsonContent.startsWith("[")) {
-	                ObjectMapper objectMapper = new ObjectMapper();
-	                Object[] readValue = objectMapper.readValue(jsonContent,
-	                        Object[].class);
-	                for (Object object : readValue) {
- 	                    objectList.add(object);
- 	                }
-
-	            } else {
-	                ObjectMapper objectMapper = new ObjectMapper();
-	                Object object = objectMapper.readValue(jsonContent,
-	                        Object.class);
-                    objectList.add(object);
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return Response.status(500).entity("FAIL:" + e.getMessage())
-	                    .build();
-	        }
-
- 	        for (int i = 0; i < numIdle; i++) {
-	            Object borrowObject = getObjectPoolImpl().borrowObject();
-	            if (borrowObject == null)
-	                throw new NoResourceCanUsedException();
-	            else{
-	                for (Object object : objectList) {
-	                    LOG.info("object condition:" + object);
-	                    LOG.info("object borrowObject:" + borrowObject);
-
-	                    if(object.toString().equals(borrowObject.toString())){
-	                    	
-	                		borrowerName = getBorrowName(borrowerName);
-	                    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), object.toString()));
-	                    	IN_POOLS_OBJECTS.remove(object.toString());
- 	                        return borrowObject;
-	                    }
-	                }
-
-	                getObjectPoolImpl().returnObject(borrowObject);
-	            }
-            }
-
-            throw new NoResourceCanUsedException();
-  	}
-
-	@GET
-	@Path("getFactory")
-	public Response getFactory() {
-		String factory = GenericObjectPoolImpl.getClassForResourceFactory();
-		return Response.ok(factory, MediaType.TEXT_PLAIN_TYPE).build();
-	}
-
-	@GET
-	@Path("drain")
-	public Response drain() throws Exception {
-        GenericObjectPoolImpl.resetPoolImpl();
-        ADDED_OBJECTS.clear();
-		IN_POOLS_OBJECTS.clear();
-        return Response.status(200).entity("OK").build();
-	}
-
-	@POST
-	@Path("return")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public synchronized void returnObject(Object object,@HeaderParam("borrower") String borrowerName) throws Exception {
-		borrowerName = getBorrowName(borrowerName);
-    	if(!IN_POOLS_OBJECTS.contains(object.toString())){
-     		getObjectPoolImpl().returnObject(object);
-        	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()));
-      	}else{
-        	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()+",but existed same resource in pools. so ignore it"));
-       	}
-	}
-
-	@POST
-	@Path("add")
-	public synchronized Response addObject(@Form ResouceAddForm form) {
-		LOG.info("begin to add resource:");
- 		String originalJsonContent = form.getJsonContent();
-		if (originalJsonContent.isEmpty()) {
-			throw new BadRequestException("content is empty");
-		}
-		String jsonContent = originalJsonContent.trim();
-		LOG.info("jsonContent:" + jsonContent);
+	@SuppressWarnings("unchecked")
+	private static PoolableObjectFactory<Object> getFactoryInstance()
+			throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		InputStream resourceAsStream = GenericObjectPoolImpl.class
+				.getClassLoader().getResourceAsStream("config.txt");
 		try {
-			if (jsonContent.startsWith("[")) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Object[] readValue = objectMapper.readValue(jsonContent,
-						Object[].class);
-				for (Object object : readValue) {
-					ADDED_OBJECTS.add(object);
-					IN_POOLS_OBJECTS.add(object.toString());
-					PoolUtil.returnObjectWithoutActiveNumberChanage(object);
-				}
-
+			String string = IOUtils.toString(resourceAsStream);
+			LOG.info("import:" + string);
+			if (string == null || string.isEmpty()) {
+				classForResourceFactory = DEFAULT_RESOURCE_FACTORY;
 			} else {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Object object = objectMapper.readValue(jsonContent,
-						Object.class);
-				ADDED_OBJECTS.add(object);
-				IN_POOLS_OBJECTS.add(object.toString());
- 				PoolUtil.returnObjectWithoutActiveNumberChanage(object);
- 			}
-			return Response.status(200).entity("OK").build();
-		} catch (Exception e) {
+				classForResourceFactory = string;
+			}
+
+			LOG.info("new classForResourceFactory: " + classForResourceFactory);
+		} catch (IOException e) {
 			e.printStackTrace();
-			return Response.status(500).entity("FAIL:" + e.getMessage())
-					.build();
+		} finally {
+			IOUtils.closeQuietly(resourceAsStream);
 		}
-
+		return (PoolableObjectFactory<Object>) Class.forName(
+				classForResourceFactory).newInstance();
 	}
 
-	/**
-	 *
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@GET
-	@Path("active")
-	public synchronized Response getActiveNumber() throws Exception {
-		GenericObjectPoolImpl objectPoolImpl = getObjectPoolImpl();
-		int activeNumber = objectPoolImpl.getNumActive();
+	public static void resetPoolImpl(String newResourceFactory) {
+		INSTANCE = null;
+        LOG.info("set null to GenericObjectPoolImpl");
+ 		classForResourceFactory = newResourceFactory;
+        LOG.info("set classForResourceFactory:"+newResourceFactory);
+ 	}
 
-		return Response.ok(activeNumber, MediaType.TEXT_PLAIN_TYPE).build();
+	   public static void resetPoolImpl() {
+	        INSTANCE = null;
+	        LOG.info("set null to GenericObjectPoolImpl");
 	}
 
-	@GET
-	@Path("info")
-	public synchronized Response getPoolInfo() throws Exception {
-		GenericObjectPoolImpl objectPoolImpl = getObjectPoolImpl();
-		int activeNumber = objectPoolImpl.getNumActive();
-		int idleNumber=objectPoolImpl.getNumIdle();
-		int totalNumber=activeNumber+idleNumber;
-
-		return Response.ok(new PoolInfo(activeNumber,idleNumber,totalNumber), MediaType.APPLICATION_JSON_TYPE).build();
+	public static String getClassForResourceFactory() {
+		return classForResourceFactory;
 	}
 
-	@GET
-	@Path("idle")
-	public synchronized Response getIdleNumber() throws Exception {
-		int activeNumber = getObjectPoolImpl().getNumIdle();
- 		return Response.ok(activeNumber, MediaType.TEXT_PLAIN_TYPE).build();
-	}
-
-	private static GenericObjectPoolImpl getObjectPoolImpl() {
-		return GenericObjectPoolImpl.getInstance();
-	}
 }
