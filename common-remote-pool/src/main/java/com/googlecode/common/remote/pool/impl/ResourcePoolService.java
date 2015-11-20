@@ -30,7 +30,9 @@ import com.googlecode.common.remote.pool.util.PoolUtil;
 public class ResourcePoolService {
 
 	public final static Set<Object> ADDED_OBJECTS=new HashSet<Object>();
-
+	
+	public final static Set<String> IN_POOLS_OBJECTS=new HashSet<String>();
+ 
 	private final static Logger LOG=Logger.getLogger(ResourcePoolService.class);
 	
 	private final static List<BorrowInfo> BORROW_INFO_LIST=Collections.synchronizedList(new ArrayList<BorrowInfo>());
@@ -84,6 +86,7 @@ public class ResourcePoolService {
 
 		borrowerName = getBorrowName(borrowerName);
     	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), borrowObject.toString()));
+    	IN_POOLS_OBJECTS.remove(borrowObject.toString());
 
 		return borrowObject;
 	}
@@ -145,7 +148,8 @@ public class ResourcePoolService {
 	                    	
 	                		borrowerName = getBorrowName(borrowerName);
 	                    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.BORROW, new Date(), object.toString()));
-	                        return borrowObject;
+	                    	IN_POOLS_OBJECTS.remove(object.toString());
+ 	                        return borrowObject;
 	                    }
 	                }
 
@@ -168,6 +172,7 @@ public class ResourcePoolService {
 	public Response drain() throws Exception {
         GenericObjectPoolImpl.resetPoolImpl();
         ADDED_OBJECTS.clear();
+		IN_POOLS_OBJECTS.clear();
         return Response.status(200).entity("OK").build();
 	}
 
@@ -176,8 +181,13 @@ public class ResourcePoolService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public synchronized void returnObject(Object object,@HeaderParam("borrower") String borrowerName) throws Exception {
 		borrowerName = getBorrowName(borrowerName);
-    	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()));
- 		getObjectPoolImpl().returnObject(object);
+    	if(!IN_POOLS_OBJECTS.contains(object.toString())){
+    		IN_POOLS_OBJECTS.add(object.toString());
+     		getObjectPoolImpl().returnObject(object);
+        	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()));
+      	}else{
+        	BORROW_INFO_LIST.add(new BorrowInfo(borrowerName, OperationType.RETURN, new Date(), object.toString()+",but existed same resource in pools. so ignore it"));
+       	}
 	}
 
 	@POST
@@ -197,6 +207,7 @@ public class ResourcePoolService {
 						Object[].class);
 				for (Object object : readValue) {
 					ADDED_OBJECTS.add(object);
+					IN_POOLS_OBJECTS.add(object.toString());
 					PoolUtil.returnObjectWithoutActiveNumberChanage(object);
 				}
 
@@ -205,7 +216,8 @@ public class ResourcePoolService {
 				Object object = objectMapper.readValue(jsonContent,
 						Object.class);
 				ADDED_OBJECTS.add(object);
-				PoolUtil.returnObjectWithoutActiveNumberChanage(object);
+				IN_POOLS_OBJECTS.add(object.toString());
+ 				PoolUtil.returnObjectWithoutActiveNumberChanage(object);
  			}
 			return Response.status(200).entity("OK").build();
 		} catch (Exception e) {
